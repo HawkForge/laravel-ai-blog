@@ -1,0 +1,67 @@
+{
+    "name": "mrhawk/laravel-ai-blog",
+    "description": "The AI-native blog for Laravel. Headless by default, SEO built in, AI as your editor, MCP so chat agents can write to it.",
+    "keywords": ["laravel", "blog", "ai", "seo", "mcp", "cms", "content", "headless"],
+    "homepage": "https://github.com/mrhawk/laravel-ai-blog",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Mr Hawk",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^12.0||^13.0",
+        "league/commonmark": "^2.4",
+        "spatie/laravel-package-tools": "^1.16",
+        "symfony/html-sanitizer": "^7.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.14",
+        "orchestra/testbench": "^10.0||^11.0",
+        "pestphp/pest": "^3.0||^4.0",
+        "pestphp/pest-plugin-laravel": "^3.0||^4.0"
+    },
+    "suggest": {
+        "laravel/ai": "Enables the AI editor, brief-to-draft, semantic linking and refresh features (^1.0).",
+        "laravel/mcp": "Exposes the blog to Claude, ChatGPT, Claude Code and other agents over MCP (^1.0).",
+        "spatie/laravel-sitemap": "Adds posts to your XML sitemap automatically."
+    },
+    "autoload": {
+        "psr-4": {
+            "AiBlog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AiBlog\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AiBlog\\AiBlogServiceProvider"
+            ],
+            "aliases": {
+                "AiBlog": "AiBlog\\Facades\\AiBlog"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
