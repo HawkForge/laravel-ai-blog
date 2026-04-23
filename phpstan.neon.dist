@@ -1,0 +1,15 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+    excludePaths:
+        # Depends on the optional laravel/mcp package
+        - src/Mcp
+    ignoreErrors:
+        - '#Call to an undefined static method Laravel\\Ai\\Facades\\Ai::text\(\)#'
+        - '#Class Laravel\\Ai\\Facades\\Ai not found#'
+        - '#Class Laravel\\Mcp\\Facades\\Mcp not found#'
+        - '#Call to static method .* on an unknown class Laravel\\(Ai|Mcp)\\Facades#'
