@@ -1,0 +1,74 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        $prefix = config('ai-blog.table_prefix', 'ai_blog_');
+
+        Schema::create($prefix.'categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create($prefix.'tags', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
+
+        Schema::create($prefix.'posts', function (Blueprint $table) use ($prefix) {
+            $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('excerpt')->nullable();
+            $table->longText('body')->nullable();
+            $table->string('status', 20)->default('draft')->index();
+            $table->timestamp('published_at')->nullable()->index();
+            $table->timestamp('scheduled_for')->nullable()->index();
+            $table->timestamp('last_reviewed_at')->nullable();
+
+            // SEO
+            $table->string('seo_title')->nullable();
+            $table->string('seo_description', 320)->nullable();
+            $table->string('target_keyword')->nullable();
+            $table->string('canonical_url')->nullable();
+            $table->string('featured_image')->nullable();
+            $table->string('featured_image_alt')->nullable();
+            $table->unsignedTinyInteger('seo_score')->nullable();
+
+            // Provenance — was AI involved, and how much?
+            $table->string('ai_assistance', 20)->nullable(); // none|assisted|drafted
+
+            $table->foreignId('category_id')->nullable()->constrained($prefix.'categories')->nullOnDelete();
+            $table->nullableMorphs('author');
+            $table->json('meta')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create($prefix.'post_tag', function (Blueprint $table) use ($prefix) {
+            $table->foreignId('post_id')->constrained($prefix.'posts')->cascadeOnDelete();
+            $table->foreignId('tag_id')->constrained($prefix.'tags')->cascadeOnDelete();
+            $table->primary(['post_id', 'tag_id']);
+        });
+    }
+
+    public function down(): void
+    {
+        $prefix = config('ai-blog.table_prefix', 'ai_blog_');
+
+        Schema::dropIfExists($prefix.'post_tag');
+        Schema::dropIfExists($prefix.'posts');
+        Schema::dropIfExists($prefix.'tags');
+        Schema::dropIfExists($prefix.'categories');
+    }
+};
