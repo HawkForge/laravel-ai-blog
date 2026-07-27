@@ -1,0 +1,49 @@
+<?php
+
+namespace AiBlog\Mcp;
+
+use AiBlog\Mcp\Tools\CreateDraft;
+use AiBlog\Mcp\Tools\DraftFromKeyword;
+use AiBlog\Mcp\Tools\GetPost;
+use AiBlog\Mcp\Tools\ListPosts;
+use AiBlog\Mcp\Tools\SchedulePost;
+use AiBlog\Mcp\Tools\ScorePost;
+use AiBlog\Mcp\Tools\SuggestLinks;
+use AiBlog\Mcp\Tools\UpdatePost;
+use Laravel\Mcp\Server;
+
+/**
+ * Lets Claude, ChatGPT, Claude Code, Cursor — any MCP client — work the blog.
+ *
+ * Requires laravel/mcp. Registered by the service provider when ai-blog.mcp.enabled is true.
+ * Publishing is intentionally NOT a tool: agents draft, score, link and schedule; a human publishes
+ * (or the scheduler does, after a human scheduled it).
+ */
+class BlogServer extends Server
+{
+    protected string $name = 'Laravel AI Blog';
+
+    protected string $version = '0.1.0';
+
+    protected string $instructions = <<<'TXT'
+    You are working inside a Laravel site's blog via Laravel AI Blog. You can list, read, create and update posts,
+    draft a post from a keyword, score a post's on-page SEO, suggest internal links, and schedule posts.
+    Always read a post before updating it. Never claim a post is live: you cannot publish — you can only
+    schedule, and a human or the scheduler publishes. Preserve the site's house style from the style guide.
+    TXT;
+
+    protected array $tools = [
+        ListPosts::class,
+        GetPost::class,
+        CreateDraft::class,
+        UpdatePost::class,
+        DraftFromKeyword::class,
+        ScorePost::class,
+        SuggestLinks::class,
+        SchedulePost::class,
+    ];
+
+    protected array $resources = [
+        Resources\StyleGuide::class,
+    ];
+}
