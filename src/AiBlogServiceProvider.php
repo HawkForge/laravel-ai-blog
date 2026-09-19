@@ -6,6 +6,8 @@ use AiBlog\Ai\Contracts\Assistant;
 use AiBlog\Ai\FakeAssistant;
 use AiBlog\Commands\AuditCommand;
 use AiBlog\Commands\PublishScheduledCommand;
+use AiBlog\Fetching\HostResolver;
+use AiBlog\Fetching\SystemHostResolver;
 use AiBlog\Seo\LinkSuggester;
 use AiBlog\Seo\SeoAnalyzer;
 use Spatie\LaravelPackageTools\Package;
@@ -30,6 +32,7 @@ class AiBlogServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(SeoAnalyzer::class);
         $this->app->singleton(LinkSuggester::class);
+        $this->app->bindIf(HostResolver::class, SystemHostResolver::class);
 
         $this->app->singleton(Assistant::class, function ($app) {
             if (! config('ai-blog.ai.enabled', true)) {
