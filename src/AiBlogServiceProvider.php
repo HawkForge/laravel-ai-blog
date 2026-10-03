@@ -4,12 +4,15 @@ namespace AiBlog;
 
 use AiBlog\Ai\Contracts\Assistant;
 use AiBlog\Ai\FakeAssistant;
+use AiBlog\Bus\Actor;
+use AiBlog\Bus\CommandRegistry;
 use AiBlog\Commands\AuditCommand;
 use AiBlog\Commands\PublishScheduledCommand;
 use AiBlog\Fetching\HostResolver;
 use AiBlog\Fetching\SystemHostResolver;
 use AiBlog\Seo\LinkSuggester;
 use AiBlog\Seo\SeoAnalyzer;
+use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -21,7 +24,7 @@ class AiBlogServiceProvider extends PackageServiceProvider
             ->name('laravel-ai-blog')
             ->hasConfigFile('ai-blog')
             ->hasViews('ai-blog')
-            ->hasMigration('create_ai_blog_tables')
+            ->hasMigrations(['create_ai_blog_tables', 'create_ai_blog_command_tables'])
             ->hasCommands([
                 PublishScheduledCommand::class,
                 AuditCommand::class,
@@ -43,10 +46,20 @@ class AiBlogServiceProvider extends PackageServiceProvider
         });
 
         $this->app->singleton(AiBlog::class);
+
+        $this->app->singleton(CommandRegistry::class, fn (): CommandRegistry => new CommandRegistry(
+            (array) config('ai-blog.commands.handlers', [])
+        ));
     }
 
     public function packageBooted(): void
     {
+        // Nobody manages the blog until the host says who may; the host's own
+        // Gate::define for this ability replaces this one.
+        if (! Gate::has(Actor::GATE)) {
+            Gate::define(Actor::GATE, fn (): bool => false);
+        }
+
         if (config('ai-blog.routes.enabled')) {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         }
