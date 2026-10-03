@@ -75,6 +75,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Commands
+    |--------------------------------------------------------------------------
+    | Every change goes through one command bus with an idempotency key and
+    | an audit event. Add your own handlers here as 'name.action' => class.
+    | Who may run commands as a person is decided by the `manageAiBlog`
+    | gate, which denies everyone until you define it.
+    */
+    'commands' => [
+        'handlers' => [],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | MCP server
     |--------------------------------------------------------------------------
     | Requires laravel/mcp. When `enabled`, Laravel AI Blog registers an MCP server
