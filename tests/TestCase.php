@@ -25,7 +25,9 @@ class TestCase extends Orchestra
 
     protected function defineDatabaseMigrations(): void
     {
-        $migration = include __DIR__.'/../database/migrations/create_ai_blog_tables.php.stub';
-        $migration->up();
+        foreach (['create_ai_blog_tables', 'create_ai_blog_command_tables'] as $stub) {
+            $migration = include __DIR__."/../database/migrations/{$stub}.php.stub";
+            $migration->up();
+        }
     }
 }
