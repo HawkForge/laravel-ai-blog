@@ -112,7 +112,11 @@ final class UrlGuard
         if (str_starts_with($host, '[')) {
             $literal = substr($host, 1, -1);
 
-            if (! str_ends_with($host, ']') || str_contains($literal, '%')
+            if (str_contains($literal, '%')) {
+                throw FetchRefused::because(FetchRefusal::InvalidUrl, $url);
+            }
+
+            if (! str_ends_with($host, ']')
                 || filter_var($literal, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
                 throw FetchRefused::because(FetchRefusal::NonCanonicalAddress, $url);
             }
