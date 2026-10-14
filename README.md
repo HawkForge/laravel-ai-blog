@@ -1,8 +1,8 @@
 # Laravel AI Blog — the AI-native blog for Laravel
 
-[![tests](https://github.com/mrhawk/laravel-ai-blog/actions/workflows/tests.yml/badge.svg)](https://github.com/mrhawk/laravel-ai-blog/actions)
-[![Latest Version](https://img.shields.io/packagist/v/mrhawk/laravel-ai-blog.svg)](https://packagist.org/packages/mrhawk/laravel-ai-blog)
-[![License](https://img.shields.io/packagist/l/mrhawk/laravel-ai-blog.svg)](LICENSE.md)
+[![tests](https://github.com/HawkForge/laravel-ai-blog/actions/workflows/tests.yml/badge.svg)](https://github.com/HawkForge/laravel-ai-blog/actions)
+[![Latest Version](https://img.shields.io/packagist/v/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
+[![License](https://img.shields.io/packagist/l/hawkforge/laravel-ai-blog.svg)](LICENSE.md)
 
 **Install it, and your blog thinks.** Laravel AI Blog gives any Laravel 12/13 app a blog that plans topics,
 drafts *with* you, scores itself for search, links itself, keeps itself fresh — and lets Claude,
@@ -17,7 +17,7 @@ ChatGPT, Claude Code or any MCP agent write to it.
 ## Install
 
 ```bash
-composer require mrhawk/laravel-ai-blog
+composer require hawkforge/laravel-ai-blog
 php artisan vendor:publish --tag=laravel-ai-blog-migrations
 php artisan migrate
 ```
@@ -104,6 +104,77 @@ score, link and schedule; a human (or the scheduler, after a human scheduled it)
 
 For Claude.ai and ChatGPT custom connectors, use laravel/mcp's OAuth support (`Mcp::oauthRoutes()` with Passport).
 
+## Safe fetching (research)
+
+`SafeFetcher` reads a public web page, feed or JSON document so the AI has real sources to work from. Run it
+from a queued job or an Artisan command: it **refuses to run inside a web request**.
+
+```php
+use AiBlog\Fetching\Feeds\FeedParser;
+use AiBlog\Fetching\SafeFetcher;
+use AiBlog\Fetching\TextExtractor;
+
+$document = app(SafeFetcher::class)->fetch('https://example.com/feed.xml');
+
+$feed = app(FeedParser::class)->parseDocument($document);   // RSS, Atom, RSS 1.0 or JSON Feed
+$page = app(TextExtractor::class)->extract($document);      // readable text, title, author, date
+$page->untrusted();                                         // wrap it before it goes near a model
+```
+
+On the first URL and on every redirect (at most 5) it checks that the URL is plain http(s) with no credentials,
+a standard port and no internal host names; resolves the host itself and requires every address to be public;
+**pins the connection to the address it checked**, so DNS rebinding can't move the request inside your network;
+obeys `robots.txt`; ignores proxies and cookies; and caps the body size and total time. Anything it returns is
+untrusted data: hand it to a model only through `TextExtractor` and `UntrustedText`.
+
+## Command bus
+
+Every change can go through one bus, so a dashboard, an Artisan command, a job and an AI agent all get the same
+rules: the actor must hold the command's **ability**, every request carries an **idempotency key** (a retry
+replays the stored result instead of running twice), and each outcome is written to an **audit trail**.
+
+```php
+use AiBlog\Bus\Actor;
+use AiBlog\Bus\CommandBus;
+use AiBlog\Bus\CommandContext;
+use AiBlog\Bus\CommandHandler;
+use AiBlog\Bus\CommandOutcome;
+use AiBlog\Bus\CommandRequest;
+
+final class RenamePost extends CommandHandler
+{
+    public function ability(): ?string { return 'posts.write'; }
+
+    public function rules(): array { return ['title' => ['required', 'string', 'max:120']]; }
+
+    public function handle(CommandContext $context): CommandOutcome
+    {
+        // ...call your service here...
+        return CommandOutcome::completed(['title' => $context->params['title']], 'post', '42');
+    }
+}
+```
+
+```php
+// config/ai-blog.php
+'commands' => ['handlers' => ['post.rename' => RenamePost::class]],
+
+// AppServiceProvider: nobody manages the blog until you say who may
+Gate::define('manageAiBlog', fn ($user) => $user->is_admin);
+
+// anywhere
+$receipt = app(CommandBus::class)->dispatch(
+    Actor::user($request->user()),
+    new CommandRequest('post.rename', idempotencyKey: 'rename-42-v1', params: ['title' => 'New title']),
+);
+
+$receipt->result();    // what the caller may see
+$receipt->replayed;    // true when this was a retry
+```
+
+Pass `dryRun: true` to preview a command without changing anything. Publish and run the migrations to create the
+`commands` and `audit_events` tables.
+
 ## Public routes (opt-in)
 
 ```php
@@ -132,6 +203,8 @@ Auto-publishing exists as a config flag you turn on knowingly, never as a defaul
 - [x] Headless core, SEO score, internal links, stale detection, JSON-LD, RSS
 - [x] AI brief → draft, enrich, rewrite, refresh, translate (via laravel/ai)
 - [x] MCP server for agents
+- [x] Safe fetching: SSRF-guarded fetcher, feed parser, text extraction
+- [x] Command bus with idempotency and an audit trail
 - [ ] Semantic linking with embeddings
 - [ ] Topic intelligence: content gaps and clusters from your existing posts
 - [ ] Filament adapter · Nova adapter · Livewire editor
@@ -139,6 +212,10 @@ Auto-publishing exists as a config flag you turn on knowingly, never as a defaul
 - [ ] Scheduled pipelines ("two drafts a week from this keyword list")
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) — there's a `good first issue` for most of these.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for how to report a vulnerability privately.
 
 ## License
 

@@ -5,7 +5,7 @@ Thanks for helping. Laravel AI Blog is MIT and built by the community — small 
 ## Setup
 
 ```bash
-git clone https://github.com/mrhawk/laravel-ai-blog && cd laravel-ai-blog
+git clone https://github.com/HawkForge/laravel-ai-blog && cd laravel-ai-blog
 composer install
 composer test
 ```
@@ -27,6 +27,8 @@ composer test
 | AI prompts | `src/Ai/Prompts.php` — improve a prompt without touching logic |
 | AI provider glue | `src/Ai/LaravelAiAssistant.php::complete()` — the only method that calls the SDK |
 | Agent tools | `src/Mcp/Tools/` — one class per tool |
+| Safe fetching | `src/Fetching/` — `UrlGuard` and `IpAddressPolicy` decide what may be fetched, `SafeFetcher` does it |
+| Command bus | `src/Bus/` — one handler per command, ability + idempotency + audit live in `CommandBus` |
 | Opt-in blog views | `resources/views/` |
 
 ## Good first issues
@@ -44,4 +46,4 @@ with before/after examples, or a test for an edge case in `Text`.
 
 ## Security
 
-Email the maintainer privately rather than opening an issue.
+Please report vulnerabilities privately, not as a public issue. See [SECURITY.md](SECURITY.md).
