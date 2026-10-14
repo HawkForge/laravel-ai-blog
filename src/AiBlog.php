@@ -5,6 +5,7 @@ namespace AiBlog;
 use AiBlog\Ai\Brief;
 use AiBlog\Ai\Contracts\Assistant;
 use AiBlog\Ai\Draft;
+use AiBlog\Models\Post;
 use AiBlog\Seo\LinkSuggester;
 use AiBlog\Seo\SeoAnalyzer;
 use AiBlog\Seo\SeoReport;
@@ -29,12 +30,13 @@ class AiBlog
         return $this->assistant;
     }
 
-    /** @return class-string<Model> */
+    /** @return class-string<Post> */
     public function postModel(): string
     {
         return config('ai-blog.models.post');
     }
 
+    /** @return Builder<Post> */
     public function posts(): Builder
     {
         return $this->postModel()::query();

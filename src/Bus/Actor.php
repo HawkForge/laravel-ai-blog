@@ -59,7 +59,7 @@ final readonly class Actor
      * a confirmation started before a token refresh can still be finished
      * after it, by the same connection and no other.
      *
-     * @param  list<string>  $abilities
+     * @param  array<array-key, string>  $abilities
      * @param  array<string, mixed>  $meta
      */
     public static function credential(string $id, array $abilities, ?string $principal = null, array $meta = []): self

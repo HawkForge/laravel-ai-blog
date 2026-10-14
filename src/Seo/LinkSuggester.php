@@ -53,7 +53,7 @@ class LinkSuggester
         $query = $post->newQuery()->whereKeyNot($post->getKey());
 
         if (method_exists($post, 'scopePublished')) {
-            $query->published();
+            $query->scopes(['published']);
         }
 
         return $query->get();

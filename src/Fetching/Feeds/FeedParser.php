@@ -125,7 +125,7 @@ final class FeedParser
 
     private function parseRss(DOMXPath $xpath, string $feedUrl, int $maxItems): ParsedFeed
     {
-        $channel = $xpath->query('/rss/channel')?->item(0);
+        $channel = ($xpath->query('/rss/channel') ?: null)?->item(0);
 
         if (! $channel instanceof DOMElement) {
             throw FeedUnreadable::because('the RSS document has no channel');
@@ -174,7 +174,7 @@ final class FeedParser
 
     private function parseAtom(DOMXPath $xpath, string $feedUrl, int $maxItems): ParsedFeed
     {
-        $feed = $xpath->query('/atom:feed')?->item(0);
+        $feed = ($xpath->query('/atom:feed') ?: null)?->item(0);
 
         if (! $feed instanceof DOMElement) {
             throw FeedUnreadable::because('the Atom document has no feed element');
@@ -215,7 +215,7 @@ final class FeedParser
 
     private function parseRdf(DOMXPath $xpath, string $feedUrl, int $maxItems): ParsedFeed
     {
-        $channel = $xpath->query('/rdf:RDF/rss1:channel')?->item(0);
+        $channel = ($xpath->query('/rdf:RDF/rss1:channel') ?: null)?->item(0);
         $homePage = $channel instanceof DOMElement ? $this->absoluteUrl($this->childText($xpath, $channel, 'rss1:link'), $feedUrl) : null;
         $items = [];
         $truncated = false;
@@ -391,7 +391,7 @@ final class FeedParser
 
     private function childText(DOMXPath $xpath, DOMNode $context, string $name): ?string
     {
-        $node = $xpath->query($name, $context)?->item(0);
+        $node = ($xpath->query($name, $context) ?: null)?->item(0);
 
         if ($node === null) {
             return null;

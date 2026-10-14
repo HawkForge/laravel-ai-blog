@@ -8,8 +8,23 @@ parameters:
     excludePaths:
         # Depends on the optional laravel/mcp package
         - src/Mcp
+    # The ignores for the optional laravel/ai and laravel/mcp packages only match
+    # when those packages are installed, so an unmatched one is not an error.
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Call to an undefined static method Laravel\\Ai\\Facades\\Ai::text\(\)#'
         - '#Class Laravel\\Ai\\Facades\\Ai not found#'
         - '#Class Laravel\\Mcp\\Facades\\Mcp not found#'
         - '#Call to static method .* on an unknown class Laravel\\(Ai|Mcp)\\Facades#'
+        # The SEO helpers accept any Eloquent model that uses the HasBlogSeo trait,
+        # so these methods are duck-typed rather than declared on Model.
+        -
+            message: '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model::(get(Title|Slug|SeoDescription|TargetKeyword)Field|bodyText|targetKeyword|seoDescription)\(\)#'
+            paths:
+                - src/AiBlog.php
+                - src/Seo/LinkSuggester.php
+        # 'ai-blog::*' views are registered by the service provider, which
+        # PHPStan does not boot, so they are not known view names to it.
+        -
+            message: '#Parameter \#1 \$view of function view expects view-string\|null, string given#'
+            path: src/Http/Controllers/BlogController.php

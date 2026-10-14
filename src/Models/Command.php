@@ -4,8 +4,10 @@ namespace AiBlog\Models;
 
 use AiBlog\Enums\AuditActor;
 use AiBlog\Enums\CommandStatus;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * A request to change something, from a person, ChatGPT, a job or the Brain.
@@ -22,6 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property CommandStatus $status
  * @property array<string, mixed>|null $result
  * @property string|null $error
+ * @property CarbonImmutable|null $started_at
+ * @property CarbonImmutable|null $completed_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class Command extends Model
 {

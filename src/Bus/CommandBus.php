@@ -166,8 +166,8 @@ final class CommandBus
      * Params as stored: a value under a key ending in `_token` is kept only as
      * its hash, so a confirmation token is never written down.
      *
-     * @param  array<string, mixed>  $params
-     * @return array<string, mixed>
+     * @param  array<array-key, mixed>  $params
+     * @return array<array-key, mixed>
      */
     private function storable(array $params): array
     {

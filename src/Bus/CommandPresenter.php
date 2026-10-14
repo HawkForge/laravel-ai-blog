@@ -20,7 +20,7 @@ final class CommandPresenter
     {
         return array_filter(
             (array) $command->result,
-            fn (string|int $key): bool => ! is_string($key) || ! str_starts_with($key, '_'),
+            fn (string|int $key): bool => ! str_starts_with((string) $key, '_'),
             ARRAY_FILTER_USE_KEY,
         );
     }

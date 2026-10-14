@@ -12,8 +12,33 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $excerpt
+ * @property string|null $body
+ * @property PostStatus $status
+ * @property Carbon|null $published_at
+ * @property Carbon|null $scheduled_for
+ * @property Carbon|null $last_reviewed_at
+ * @property string|null $seo_title
+ * @property string|null $seo_description
+ * @property string|null $target_keyword
+ * @property string|null $canonical_url
+ * @property string|null $featured_image
+ * @property string|null $featured_image_alt
+ * @property int|null $seo_score
+ * @property string|null $ai_assistance
+ * @property int|null $category_id
+ * @property array<string, mixed>|null $meta
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ */
 class Post extends Model
 {
     use HasBlogSeo;
@@ -91,6 +116,10 @@ class Post extends Model
             ->where('scheduled_for', '<=', now());
     }
 
+    /**
+     * @param  Builder<Post>  $query
+     * @return Builder<Post>
+     */
     public function scopeStale(Builder $query, ?int $days = null): Builder
     {
         $days ??= (int) config('ai-blog.seo.stale_after_days', 365);
