@@ -8,13 +8,16 @@ use Carbon\CarbonImmutable;
 use Dom\Element;
 use Dom\HTMLDocument;
 use Dom\Node;
+use DOMElement;
+use DOMNode;
 use Throwable;
 
 /**
  * Turns a fetched document into bounded plain text plus the title, author
  * and publish date when the page states them.
  *
- * HTML is parsed with PHP's HTML5 parser, which never fetches anything. The
+ * HTML is parsed with PHP 8.4's HTML5 parser where there is one, else with
+ * libxml2's HTML parser ({@see LegacyHtmlDocument}). Neither fetches anything. The
  * title, author and date come from the usual meta tags, JSON-LD and
  * `<time datetime>`. The text comes from `<article>`, else `<main>`, else the
  * body, after removing scripts, styles, embedded objects, forms, navigation
@@ -48,6 +51,11 @@ final class TextExtractor
 
     private const MAX_JSON_LD_BLOCKS = 10;
 
+    /**
+     * @param  bool  $useLegacyParser  force the libxml2 parser even where PHP 8.4's HTML5 parser exists
+     */
+    public function __construct(private readonly bool $useLegacyParser = false) {}
+
     public function extract(FetchedDocument $document, int $maxCharacters = self::DEFAULT_MAX_CHARACTERS): ExtractedText
     {
         $body = $this->toUtf8($document->body, $document->charset());
@@ -70,7 +78,7 @@ final class TextExtractor
 
         $this->removeInvisible($html);
 
-        $root = $html->querySelector('article') ?? $html->querySelector('main') ?? $html->querySelector('[role="main"]') ?? $html->body;
+        $root = $html->querySelector('article') ?? $html->querySelector('main') ?? $html->querySelector('[role="main"]') ?? $this->body($html);
         $text = $root === null ? '' : $this->text($root);
 
         [$text, $truncated] = $this->bound($this->normaliseWhitespace(UntrustedText::clean($text)), $maxCharacters);
@@ -78,13 +86,32 @@ final class TextExtractor
         return new ExtractedText($document->finalUrl, $text, $title, $author, $publishedAt, $truncated);
     }
 
-    private function parse(string $html): ?HTMLDocument
+    private function parse(string $html): HTMLDocument|LegacyHtmlDocument|null
     {
         try {
+            if ($this->useLegacyParser || ! class_exists(HTMLDocument::class)) {
+                return LegacyHtmlDocument::fromString($html);
+            }
+
             return HTMLDocument::createFromString($html, LIBXML_NOERROR | LIBXML_COMPACT, 'UTF-8');
         } catch (Throwable) {
             return null;
         }
+    }
+
+    private function body(HTMLDocument|LegacyHtmlDocument $html): Element|DOMElement|null
+    {
+        return $html instanceof LegacyHtmlDocument ? $html->body() : $html->body;
+    }
+
+    /**
+     * @return list<Element|DOMElement>
+     */
+    private function all(HTMLDocument|LegacyHtmlDocument $html, string $selector): array
+    {
+        return $html instanceof LegacyHtmlDocument
+            ? $html->querySelectorAll($selector)
+            : array_values(iterator_to_array($html->querySelectorAll($selector)));
     }
 
     private function toUtf8(string $body, ?string $charset): string
@@ -108,14 +135,14 @@ final class TextExtractor
         return mb_check_encoding($body, 'UTF-8') ? $body : (string) mb_convert_encoding($body, 'UTF-8', 'UTF-8');
     }
 
-    private function title(HTMLDocument $html): ?string
+    private function title(HTMLDocument|LegacyHtmlDocument $html): ?string
     {
         return $this->metaContent($html, ['meta[property="og:title"]', 'meta[name="twitter:title"]'])
             ?? $this->metadata($html->querySelector('title')?->textContent)
             ?? $this->metadata($html->querySelector('h1')?->textContent);
     }
 
-    private function author(HTMLDocument $html): ?string
+    private function author(HTMLDocument|LegacyHtmlDocument $html): ?string
     {
         $author = $this->metaContent($html, ['meta[name="author"]', 'meta[property="article:author"]', 'meta[name="byl"]']);
 
@@ -135,7 +162,7 @@ final class TextExtractor
             ?? $this->metadata($html->querySelector('[itemprop="author"]')?->textContent);
     }
 
-    private function publishedAt(HTMLDocument $html): ?CarbonImmutable
+    private function publishedAt(HTMLDocument|LegacyHtmlDocument $html): ?CarbonImmutable
     {
         $candidates = [
             $this->metaContent($html, [
@@ -189,7 +216,7 @@ final class TextExtractor
     /**
      * @param  list<string>  $selectors
      */
-    private function metaContent(HTMLDocument $html, array $selectors): ?string
+    private function metaContent(HTMLDocument|LegacyHtmlDocument $html, array $selectors): ?string
     {
         foreach ($selectors as $selector) {
             $value = $this->metadata($html->querySelector($selector)?->getAttribute('content'));
@@ -222,11 +249,11 @@ final class TextExtractor
      *
      * @return list<array<string, mixed>>
      */
-    private function jsonLd(HTMLDocument $html): array
+    private function jsonLd(HTMLDocument|LegacyHtmlDocument $html): array
     {
         $items = [];
 
-        foreach ($html->querySelectorAll('script[type="application/ld+json"]') as $index => $script) {
+        foreach ($this->all($html, 'script[type="application/ld+json"]') as $index => $script) {
             if ($index >= self::MAX_JSON_LD_BLOCKS) {
                 break;
             }
@@ -270,7 +297,7 @@ final class TextExtractor
         return null;
     }
 
-    private function removeInvisible(HTMLDocument $html): void
+    private function removeInvisible(HTMLDocument|LegacyHtmlDocument $html): void
     {
         $selectors = [
             implode(',', self::REMOVED_ELEMENTS),
@@ -283,7 +310,7 @@ final class TextExtractor
         ];
 
         foreach ($selectors as $selector) {
-            foreach (iterator_to_array($html->querySelectorAll($selector)) as $element) {
+            foreach ($this->all($html, $selector) as $element) {
                 $element->remove();
             }
         }
@@ -294,10 +321,10 @@ final class TextExtractor
      * the tree with an explicit stack, so a deeply nested page cannot run out
      * of call stack.
      */
-    private function text(Element $root): string
+    private function text(Element|DOMElement $root): string
     {
         $pieces = [];
-        /** @var list<array{0: Node|null, 1: bool}> $stack */
+        /** @var list<array{0: Node|DOMNode|null, 1: bool}> $stack */
         $stack = [[$root, false]];
 
         while ($stack !== []) {
@@ -319,7 +346,7 @@ final class TextExtractor
                 continue;
             }
 
-            if (! $node instanceof Element) {
+            if (! $node instanceof Element && ! $node instanceof DOMElement) {
                 continue;
             }
 

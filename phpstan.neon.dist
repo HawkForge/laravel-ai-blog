@@ -3,6 +3,10 @@ includes:
 
 parameters:
     level: 5
+    # The package supports PHP 8.2 to 8.5: flag anything newer than 8.2 that isn't guarded.
+    phpVersion:
+        min: 80200
+        max: 80599
     paths:
         - src
     excludePaths:
@@ -23,6 +27,11 @@ parameters:
             paths:
                 - src/AiBlog.php
                 - src/Seo/LinkSuggester.php
+        # Dom\HTMLDocument and friends are PHP 8.4+, and TextExtractor only reaches
+        # for them after checking they exist; older PHP gets LegacyHtmlDocument.
+        -
+            message: '#Dom\\(HTMLDocument|Element|Node)#'
+            path: src/Fetching/TextExtractor.php
         # 'ai-blog::*' views are registered by the service provider, which
         # PHPStan does not boot, so they are not known view names to it.
         -
