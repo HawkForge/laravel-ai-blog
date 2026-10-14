@@ -5,12 +5,16 @@
     <title>{{ config('ai-blog.seo.site_name') }}</title>
     <link>{{ route('ai-blog.index') }}</link>
     <atom:link href="{{ route('ai-blog.feed') }}" rel="self" type="application/rss+xml" />
-    <description>{{ config('ai-blog.seo.site_name') }} blog</description>
+    <description>{{ config('ai-blog.seo.description') ?: config('ai-blog.seo.site_name').' blog' }}</description>
+    <language>{{ str_replace('_', '-', app()->getLocale()) }}</language>
+    @if ($posts->first()?->published_at)
+    <lastBuildDate>{{ $posts->first()->published_at->toRssString() }}</lastBuildDate>
+    @endif
     @foreach ($posts as $post)
     <item>
         <title>{{ $post->title }}</title>
         <link>{{ route('ai-blog.show', $post->slug) }}</link>
-        <guid>{{ route('ai-blog.show', $post->slug) }}</guid>
+        <guid isPermaLink="true">{{ route('ai-blog.show', $post->slug) }}</guid>
         <pubDate>{{ $post->published_at?->toRssString() }}</pubDate>
         <description>{{ $post->excerpt ?? $post->seoDescription() }}</description>
     </item>

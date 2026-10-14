@@ -49,6 +49,7 @@ return [
     */
     'seo' => [
         'site_name' => env('APP_NAME', 'Blog'),
+        'description' => env('AI_BLOG_SEO_DESCRIPTION'),
         'title_max' => 60,
         'description_min' => 120,
         'description_max' => 160,

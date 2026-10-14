@@ -1,6 +1,10 @@
 @extends(config('ai-blog.routes.layout', 'layouts.app'))
 
-@section('title', ($heading ?? 'Blog').' — '.config('ai-blog.seo.site_name'))
+@section('title', ($heading ?? 'Blog').($posts->currentPage() > 1 ? ' — Page '.$posts->currentPage() : '').' — '.config('ai-blog.seo.site_name'))
+
+@push('head')
+    <x-ai-blog::index-meta :posts="$posts" :heading="$heading ?? null" />
+@endpush
 
 @section('content')
 <section class="ai-blog ai-blog-index">
