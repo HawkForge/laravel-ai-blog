@@ -14,11 +14,13 @@ use AiBlog\Fetching\SystemHostResolver;
 use AiBlog\Fetching\UrlGuard;
 use AiBlog\Tests\TestCase;
 use Closure;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionProperty;
+use Throwable;
 
 class SafeFetcherTest extends TestCase
 {
@@ -458,7 +460,7 @@ class SafeFetcherTest extends TestCase
     {
         $this->fakeWeb([
             'https://example.com/robots.txt' => Http::response('', 404),
-            'https://example.com/page' => Http::failedConnection(),
+            'https://example.com/page' => new ConnectionException('Connection refused'),
         ]);
 
         try {
@@ -470,7 +472,7 @@ class SafeFetcherTest extends TestCase
         }
 
         Cache::flush();
-        $this->fakeWeb(['https://example.com/robots.txt' => Http::failedConnection()]);
+        $this->fakeWeb(['https://example.com/robots.txt' => new ConnectionException('Connection refused')]);
 
         $refused = $this->assertRefused(FetchRefusal::RobotsUnavailable, fn () => $this->fetcher()->fetch('https://example.com/page'));
         $this->assertTrue($refused->retryable);
@@ -512,7 +514,13 @@ class SafeFetcherTest extends TestCase
         Http::fake(function (Request $request, array $options) use ($routes) {
             $this->sent[] = ['url' => $request->url(), 'options' => $options];
 
-            return $routes[$request->url()] ?? Http::response('not found', 404);
+            $route = $routes[$request->url()] ?? Http::response('not found', 404);
+
+            if ($route instanceof Throwable) {
+                throw $route;
+            }
+
+            return $route;
         });
     }
 

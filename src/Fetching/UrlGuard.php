@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace AiBlog\Fetching;
 
 use AiBlog\Fetching\Exceptions\FetchRefused;
-use GuzzleHttp\Psr7\Exception\MalformedUriException;
 use GuzzleHttp\Psr7\Uri;
+use InvalidArgumentException;
 
 /**
  * The checks a URL must pass before anything resolves or connects, run on the
@@ -50,8 +50,8 @@ final class UrlGuard
 
         try {
             $uri = new Uri($url);
-        } catch (MalformedUriException) {
-            throw FetchRefused::because(FetchRefusal::InvalidUrl, $url);
+        } catch (InvalidArgumentException) {
+            $this->refuseUnparsable($url);
         }
 
         $scheme = strtolower($uri->getScheme());
@@ -96,6 +96,32 @@ final class UrlGuard
         $pathAndQuery = $path.($uri->getQuery() !== '' ? '?'.$uri->getQuery() : '');
 
         return new FetchTarget((string) $normalised, $scheme, $host, $port, $pathAndQuery, $literalIp);
+    }
+
+    /**
+     * Older guzzle/psr7 cannot parse some IPv6 literals, such as an IPv4-mapped
+     * address in dotted form. The URL is refused either way; PHP's own parser
+     * names the reason, so the answer does not depend on the library version.
+     */
+    private function refuseUnparsable(string $url): never
+    {
+        $parts = parse_url($url);
+        $scheme = is_array($parts) ? strtolower($parts['scheme'] ?? '') : '';
+        $host = is_array($parts) ? ($parts['host'] ?? '') : '';
+
+        if ($scheme !== '' && $scheme !== 'http' && $scheme !== 'https') {
+            throw FetchRefused::because(FetchRefusal::UnsupportedScheme, $url);
+        }
+
+        if ($scheme !== '' && str_starts_with($host, '[')) {
+            [, $literalIp] = $this->host($host, $url);
+
+            if ($literalIp !== null && ! $this->policy->allows($literalIp)) {
+                throw FetchRefused::because(FetchRefusal::BlockedAddress, $url);
+            }
+        }
+
+        throw FetchRefused::because(FetchRefusal::InvalidUrl, $url);
     }
 
     /**

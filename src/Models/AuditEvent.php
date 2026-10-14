@@ -47,9 +47,6 @@ class AuditEvent extends Model
         });
     }
 
-    /** @return array<string, mixed> */
-    protected function casts(): array
-    {
-        return ['actor_type' => AuditActor::class, 'meta' => 'array', 'created_at' => 'datetime'];
-    }
+    /** @var array<string, string> */
+    protected $casts = ['actor_type' => AuditActor::class, 'meta' => 'array', 'created_at' => 'datetime'];
 }

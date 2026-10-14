@@ -8,7 +8,6 @@ use AiBlog\Fetching\Exceptions\FetchFailed;
 use AiBlog\Fetching\Exceptions\FetchRefused;
 use Carbon\CarbonImmutable;
 use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\Psr7\Exception\MalformedUriException;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriResolver;
 use Illuminate\Http\Client\ConnectionException;
@@ -16,6 +15,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -400,7 +400,7 @@ final class SafeFetcher
 
         try {
             return (string) UriResolver::resolve(new Uri($target->url), new Uri($location))->withFragment('');
-        } catch (MalformedUriException) {
+        } catch (InvalidArgumentException) {
             throw FetchRefused::because(FetchRefusal::InvalidRedirect, $target->url);
         }
     }

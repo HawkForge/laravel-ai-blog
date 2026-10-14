@@ -46,17 +46,14 @@ class Command extends Model
         return config('ai-blog.table_prefix', 'ai_blog_').'commands';
     }
 
-    /** @return array<string, mixed> */
-    protected function casts(): array
-    {
-        return [
-            'actor_type' => AuditActor::class,
-            'params' => 'array',
-            'result' => 'array',
-            'dry_run' => 'boolean',
-            'status' => CommandStatus::class,
-            'started_at' => 'immutable_datetime',
-            'completed_at' => 'immutable_datetime',
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'actor_type' => AuditActor::class,
+        'params' => 'array',
+        'result' => 'array',
+        'dry_run' => 'boolean',
+        'status' => CommandStatus::class,
+        'started_at' => 'immutable_datetime',
+        'completed_at' => 'immutable_datetime',
+    ];
 }
