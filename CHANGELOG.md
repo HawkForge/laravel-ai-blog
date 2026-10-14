@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 - 2026-10-14
+
+- SEO: post pages now send a canonical URL by default (the post's own address), `og:url`, `og:site_name`, `article:modified_time`, an absolute `og:image` and `twitter:image`, and a `robots` tag that allows large image previews; empty description tags are no longer sent
+- SEO: `BlogPosting` JSON-LD now includes the page `url`, the `publisher` and an absolute `image`
+- SEO: index, category and tag pages send a description, canonical URL, `prev`/`next` links, an RSS link and a distinct title per page of results; new `ai-blog.seo.description` option
+- Feed: RSS now declares its language and last build date and marks permalink GUIDs
+- Docs: README says Laravel 10 to 13 throughout, lists what the pages send to search engines and answers common questions
+
 ## 0.1.0 - 2026-10-14
 
 - Headless core: Post, Category, Tag; draft/scheduled/published lifecycle; `HasBlogSeo` trait for existing models

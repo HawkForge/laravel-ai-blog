@@ -1,7 +1,7 @@
 {
     "name": "hawkforge/laravel-ai-blog",
-    "description": "The AI-native blog for Laravel. Headless by default, SEO built in, AI as your editor, MCP so chat agents can write to it.",
-    "keywords": ["laravel", "blog", "ai", "seo", "mcp", "cms", "content", "headless"],
+    "description": "Laravel blog package with built-in SEO scoring, AI drafting (laravel/ai) and an MCP server so Claude and ChatGPT can write to it. Headless by default.",
+    "keywords": ["laravel", "blog", "blogging", "laravel-blog", "ai", "seo", "mcp", "model-context-protocol", "cms", "headless", "json-ld", "structured-data", "rss", "claude", "chatgpt"],
     "homepage": "https://github.com/HawkForge/laravel-ai-blog",
     "license": "MIT",
     "type": "library",

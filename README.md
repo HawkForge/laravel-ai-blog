@@ -1,12 +1,14 @@
-# Laravel AI Blog — the AI-native blog for Laravel
+# Laravel AI Blog — the AI-native blog package for Laravel
 
 [![tests](https://github.com/HawkForge/laravel-ai-blog/actions/workflows/tests.yml/badge.svg)](https://github.com/HawkForge/laravel-ai-blog/actions)
 [![Latest Version](https://img.shields.io/packagist/v/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
-[![License](https://img.shields.io/packagist/l/hawkforge/laravel-ai-blog.svg)](LICENSE.md)
+[![Downloads](https://img.shields.io/packagist/dt/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
+[![PHP](https://img.shields.io/packagist/php-v/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
+[![License](https://img.shields.io/github/license/HawkForge/laravel-ai-blog.svg)](LICENSE.md)
 
-**Install it, and your blog thinks.** Laravel AI Blog gives any Laravel 12/13 app a blog that plans topics,
-drafts *with* you, scores itself for search, links itself, keeps itself fresh — and lets Claude,
-ChatGPT, Claude Code or any MCP agent write to it.
+**Install it, and your blog thinks.** Laravel AI Blog is a free, open-source blog package for Laravel 10 to 13. It
+plans topics, drafts *with* you, scores every post for on-page SEO, links itself, keeps itself fresh — and lets
+Claude, ChatGPT, Claude Code or any MCP agent write to it.
 
 - **Headless by default.** Models, migrations, a trait for your *existing* Post model. No admin panel forced on you. Flip one flag for `/blog` routes, Blade components, RSS and JSON-LD.
 - **SEO that nobody else ships.** An on-page score with plain-English fixes, internal-link suggestions with anchor text, stale-post detection, BlogPosting + FAQPage schema.
@@ -195,12 +197,40 @@ Pass `dryRun: true` to preview a command without changing anything. Publish and 
 Gives you `/blog`, `/blog/{slug}`, `/blog/category/{slug}`, `/blog/tag/{slug}`, `/blog/feed`, and the
 Blade components `<x-ai-blog::meta-tags>`, `<x-ai-blog::structured-data>`, `<x-ai-blog::post-body>`.
 
+Your layout needs `@yield('title')`, `@yield('content')` and `@stack('head')`; the pages put their tags in the stack.
+
+### What the pages send to search engines
+
+- **Post pages:** a canonical URL (the post's own address, or its `canonical_url` when you set one), `og:` and
+  `twitter:` cards with an absolute image URL, `article:published_time` and `article:modified_time`, a
+  `robots` tag that allows large image previews, an RSS link, and `BlogPosting` JSON-LD with the page address and
+  publisher. A `## Question?` heading followed by an answer adds `FAQPage` JSON-LD.
+- **Index, category and tag pages:** a description, a canonical URL, `prev`/`next` links, an RSS link and a
+  distinct title on every page of results ("Blog — Page 2 — My Site").
+- **Feed:** RSS 2.0 with language, last build date and permalink GUIDs.
+- Tags with nothing to say are left out rather than sent empty: a post with no description gets no
+  `description` tag. Set `ai-blog.seo.description` (or `AI_BLOG_SEO_DESCRIPTION`) for the blog's own description.
+
 ## Scheduler
 
 ```php
 // routes/console.php
 Schedule::command('ai-blog:publish-scheduled')->everyMinute();
 ```
+
+## FAQ
+
+**Does it work without an AI provider?** Yes. Scoring, link suggestions, structured data, the feed and the routes
+need no API key. The AI features are optional and use [laravel/ai](https://github.com/laravel/ai) when you install it.
+
+**Will it publish posts by itself?** No. Everything the AI or an agent writes lands as a draft. Auto-publishing is
+a config flag you turn on yourself.
+
+**Can I keep my own Post model?** Yes. Add the `HasBlogSeo` trait and point `ai-blog.models.post` at your model.
+
+**Which Laravel and PHP versions does it support?** Laravel 10, 11, 12 and 13 on PHP 8.2 to 8.5.
+
+**Is it free?** Yes, MIT licensed, with no paid tier.
 
 ## Philosophy
 
@@ -216,6 +246,7 @@ Auto-publishing exists as a config flag you turn on knowingly, never as a defaul
 - [x] MCP server for agents
 - [x] Safe fetching: SSRF-guarded fetcher, feed parser, text extraction
 - [x] Command bus with idempotency and an audit trail
+- [ ] Built-in XML sitemap
 - [ ] Semantic linking with embeddings
 - [ ] Topic intelligence: content gaps and clusters from your existing posts
 - [ ] Filament adapter · Nova adapter · Livewire editor
