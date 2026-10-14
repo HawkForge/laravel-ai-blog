@@ -14,6 +14,17 @@ ChatGPT, Claude Code or any MCP agent write to it.
 - **Agent-ready.** A built-in [laravel/mcp](https://github.com/laravel/mcp) server: *"write a post on X, score it, link it to related posts, schedule for Monday."*
 - **Free. MIT.** No Nova license, no Filament lock-in, no SaaS tether.
 
+## Requirements
+
+- PHP 8.2 to 8.5 with the `curl`, `dom`, `libxml` and `mbstring` extensions
+- Laravel 10, 11, 12 or 13
+
+Both ends of those ranges run in CI on every push: the newest dependencies and the oldest ones the constraints
+allow. Laravel 10 and 11 are end of life; they are supported for apps that have not upgraded, not recommended
+for new ones. On PHP 8.4 and later the text extractor uses PHP's spec-compliant HTML5 parser; on older PHP it
+falls back to libxml2's HTML parser, which gives the same results on the pages the tests cover but stops at
+about 256 levels of nesting (it returns no text for a page nested deeper, never partial text).
+
 ## Install
 
 ```bash
