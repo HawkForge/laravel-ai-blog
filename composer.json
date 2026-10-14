@@ -1,16 +1,21 @@
 {
-    "name": "mrhawk/laravel-ai-blog",
+    "name": "hawkforge/laravel-ai-blog",
     "description": "The AI-native blog for Laravel. Headless by default, SEO built in, AI as your editor, MCP so chat agents can write to it.",
     "keywords": ["laravel", "blog", "ai", "seo", "mcp", "cms", "content", "headless"],
-    "homepage": "https://github.com/mrhawk/laravel-ai-blog",
+    "homepage": "https://github.com/HawkForge/laravel-ai-blog",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
             "name": "Mr Hawk",
+            "homepage": "https://github.com/HawkForge",
             "role": "Maintainer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HawkForge/laravel-ai-blog/issues",
+        "source": "https://github.com/HawkForge/laravel-ai-blog"
+    },
     "require": {
         "php": "^8.4",
         "guzzlehttp/guzzle": "^7.8||^8.0",
