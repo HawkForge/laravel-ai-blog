@@ -11,15 +11,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.4', '8.5']
-        laravel: ['12.*', '13.*']
         include:
-          - laravel: '12.*'
-            testbench: '10.*'
-          - laravel: '13.*'
-            testbench: '11.*'
+          # Laravel 10 and 11 are end of life, and kept for apps that have not upgraded yet.
+          - { php: '8.2', laravel: '10.*', testbench: '8.*' }
+          - { php: '8.3', laravel: '10.*', testbench: '8.*' }
+          - { php: '8.2', laravel: '11.*', testbench: '9.*' }
+          - { php: '8.3', laravel: '11.*', testbench: '9.*' }
+          - { php: '8.4', laravel: '11.*', testbench: '9.*' }
+          - { php: '8.2', laravel: '12.*', testbench: '10.*' }
+          - { php: '8.3', laravel: '12.*', testbench: '10.*' }
+          - { php: '8.4', laravel: '12.*', testbench: '10.*' }
+          - { php: '8.5', laravel: '12.*', testbench: '10.*' }
+          - { php: '8.3', laravel: '13.*', testbench: '11.*' }
+          - { php: '8.4', laravel: '13.*', testbench: '11.*' }
+          - { php: '8.5', laravel: '13.*', testbench: '11.*' }
+          # The oldest dependency versions the constraints allow.
+          - { php: '8.2', laravel: '10.*', testbench: '8.*', stability: lowest }
+          - { php: '8.3', laravel: '13.*', testbench: '11.*', stability: lowest }
 
-    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}${{ matrix.stability == 'lowest' && ' / lowest' || '' }}
 
     steps:
       - uses: actions/checkout@v7
@@ -27,13 +37,17 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, sqlite3, pdo_sqlite
+          extensions: curl, dom, libxml, mbstring, sqlite3, pdo_sqlite
           coverage: none
 
       - name: Install dependencies
         run: |
-          composer require "illuminate/contracts:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --prefer-dist --no-interaction
+          # Every Laravel 10 and 11 release has known advisories now that they are end of life.
+          composer config audit.block-insecure false
+          # Static analysis runs in the lint job; it does not support every Laravel version tested here.
+          composer remove larastan/larastan --dev --no-update
+          composer require "illuminate/contracts:${{ matrix.laravel }}" "illuminate/http:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --prefer-dist --prefer-stable --no-interaction ${{ matrix.stability == 'lowest' && '--prefer-lowest' || '' }}
 
       - name: Run tests
         run: vendor/bin/pest --ci
@@ -45,6 +59,8 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
+          extensions: curl, dom, libxml, mbstring
       - run: composer install --prefer-dist --no-interaction
+      - run: composer validate --strict --no-check-lock
       - run: vendor/bin/pint --test
       - run: vendor/bin/phpstan analyse --no-progress
