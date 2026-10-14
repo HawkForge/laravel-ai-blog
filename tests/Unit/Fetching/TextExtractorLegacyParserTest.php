@@ -18,17 +18,9 @@ class TextExtractorLegacyParserTest extends TextExtractorTest
         return new TextExtractor(useLegacyParser: true);
     }
 
-    /**
-     * libxml2 stops at a fixed nesting depth (about 256) instead of recursing, and
-     * gives back nothing for a page nested deeper. Text it drops is text no model
-     * ever sees, so a pathological page fails safe.
-     */
-    public function test_a_deeply_nested_page_does_not_exhaust_the_stack(): void
+    protected function usesLegacyParser(): bool
     {
-        $nested = fn (int $depth): string => '<html><body>'.str_repeat('<div>', $depth).'deep'.str_repeat('</div>', $depth).'</body></html>';
-
-        $this->assertStringContainsString('deep', $this->extractor()->extract($this->document($nested(200)))->text);
-        $this->assertSame('', $this->extractor()->extract($this->document($nested(5000)))->text);
+        return true;
     }
 
     public function test_the_fallback_understands_the_selectors_the_extractor_uses(): void
