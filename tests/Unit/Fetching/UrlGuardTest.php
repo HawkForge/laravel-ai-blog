@@ -8,8 +8,8 @@ use AiBlog\Fetching\Exceptions\FetchRefused;
 use AiBlog\Fetching\FetchRefusal;
 use AiBlog\Fetching\IpAddressPolicy;
 use AiBlog\Fetching\UrlGuard;
-use PHPUnit\Framework\Attributes\DataProvider;
 use AiBlog\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class UrlGuardTest extends TestCase
 {

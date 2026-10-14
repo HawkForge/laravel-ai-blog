@@ -1,5 +1,6 @@
 <?php
 
+use AiBlog\Facades\AiBlog;
 use AiBlog\Models\Post;
 use AiBlog\Seo\SeoAnalyzer;
 use AiBlog\Seo\Text;
@@ -57,6 +58,6 @@ it('counts words, headings, links and images in markdown', function () {
 it('exposes the report through the trait and facade', function () {
     $post = Post::create(['title' => 'T', 'body' => goodBody(), 'target_keyword' => 'laravel queues']);
 
-    expect($post->seoReport()->score)->toBe(\AiBlog\Facades\AiBlog::score($post)->score)
+    expect($post->seoReport()->score)->toBe(AiBlog::score($post)->score)
         ->and($post->seoReport()->toArray())->toHaveKeys(['score', 'grade', 'checks', 'fixes']);
 });

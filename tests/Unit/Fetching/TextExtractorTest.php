@@ -7,8 +7,8 @@ namespace AiBlog\Tests\Unit\Fetching;
 use AiBlog\Fetching\FetchedDocument;
 use AiBlog\Fetching\TextExtractor;
 use AiBlog\Fetching\UntrustedText;
-use Carbon\CarbonImmutable;
 use AiBlog\Tests\TestCase;
+use Carbon\CarbonImmutable;
 
 class TextExtractorTest extends TestCase
 {

@@ -10,9 +10,11 @@ use AiBlog\Commands\AuditCommand;
 use AiBlog\Commands\PublishScheduledCommand;
 use AiBlog\Fetching\HostResolver;
 use AiBlog\Fetching\SystemHostResolver;
+use AiBlog\Mcp\BlogServer;
 use AiBlog\Seo\LinkSuggester;
 use AiBlog\Seo\SeoAnalyzer;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Mcp\Facades\Mcp;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -64,10 +66,10 @@ class AiBlogServiceProvider extends PackageServiceProvider
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         }
 
-        if (config('ai-blog.mcp.enabled') && class_exists(\Laravel\Mcp\Facades\Mcp::class)) {
-            \Laravel\Mcp\Facades\Mcp::web(
+        if (config('ai-blog.mcp.enabled') && class_exists(Mcp::class)) {
+            Mcp::web(
                 config('ai-blog.mcp.path', '/mcp/ai-blog'),
-                \AiBlog\Mcp\BlogServer::class
+                BlogServer::class
             )->middleware(config('ai-blog.mcp.middleware', ['auth:sanctum']));
         }
     }

@@ -1,5 +1,10 @@
 <?php
 
+use AiBlog\Ai\LaravelAiAssistant;
+use AiBlog\Models\Category;
+use AiBlog\Models\Post;
+use AiBlog\Models\Tag;
+
 return [
 
     /*
@@ -11,9 +16,9 @@ return [
     | the AiBlog\Concerns\HasBlogSeo trait to it and point `post` at it.
     */
     'models' => [
-        'post' => \AiBlog\Models\Post::class,
-        'category' => \AiBlog\Models\Category::class,
-        'tag' => \AiBlog\Models\Tag::class,
+        'post' => Post::class,
+        'category' => Category::class,
+        'tag' => Tag::class,
     ],
 
     /*
@@ -66,7 +71,7 @@ return [
     */
     'ai' => [
         'enabled' => env('AI_BLOG_AI_ENABLED', true),
-        'assistant' => \AiBlog\Ai\LaravelAiAssistant::class,
+        'assistant' => LaravelAiAssistant::class,
         'provider' => env('AI_BLOG_AI_PROVIDER'),
         'model' => env('AI_BLOG_AI_MODEL'),
         'auto_publish' => false,

@@ -3,7 +3,10 @@
 use AiBlog\Enums\PostStatus;
 use AiBlog\Events\PostPublished;
 use AiBlog\Events\PostScheduled;
+use AiBlog\Models\Category;
 use AiBlog\Models\Post;
+use AiBlog\Models\Tag;
+use AiBlog\Seo\StructuredData;
 use Illuminate\Support\Facades\Event;
 
 it('creates a draft with a slug by default', function () {
@@ -49,8 +52,8 @@ it('finds stale posts', function () {
 });
 
 it('attaches categories and tags', function () {
-    $cat = \AiBlog\Models\Category::create(['name' => 'Laravel Tips']);
-    $tag = \AiBlog\Models\Tag::create(['name' => 'Queues']);
+    $cat = Category::create(['name' => 'Laravel Tips']);
+    $tag = Tag::create(['name' => 'Queues']);
     $post = Post::create(['title' => 'T', 'body' => 'x', 'category_id' => $cat->id]);
     $post->tags()->attach($tag);
 
@@ -63,5 +66,5 @@ it('renders structured data', function () {
     $post = Post::create(['title' => 'T', 'body' => goodBody(), 'status' => 'published', 'published_at' => now()]);
 
     expect($post->structuredData())->toMatchArray(['@type' => 'BlogPosting', 'headline' => 'T'])
-        ->and(\AiBlog\Seo\StructuredData::faqFromBody($post->body)['mainEntity'][0]['name'])->toBe('Is laravel queues hard?');
+        ->and(StructuredData::faqFromBody($post->body)['mainEntity'][0]['name'])->toBe('Is laravel queues hard?');
 });

@@ -12,13 +12,13 @@ use AiBlog\Fetching\IpAddressPolicy;
 use AiBlog\Fetching\SafeFetcher;
 use AiBlog\Fetching\SystemHostResolver;
 use AiBlog\Fetching\UrlGuard;
+use AiBlog\Tests\TestCase;
 use Closure;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionProperty;
-use AiBlog\Tests\TestCase;
 
 class SafeFetcherTest extends TestCase
 {

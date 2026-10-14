@@ -8,9 +8,9 @@ use AiBlog\Fetching\Exceptions\FeedUnreadable;
 use AiBlog\Fetching\Feeds\FeedFormat;
 use AiBlog\Fetching\Feeds\FeedParser;
 use AiBlog\Fetching\FetchedDocument;
+use AiBlog\Tests\TestCase;
 use Carbon\CarbonImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
-use AiBlog\Tests\TestCase;
 
 class FeedParserTest extends TestCase
 {

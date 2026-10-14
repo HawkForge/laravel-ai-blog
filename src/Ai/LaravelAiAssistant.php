@@ -4,6 +4,7 @@ namespace AiBlog\Ai;
 
 use AiBlog\Ai\Contracts\Assistant;
 use AiBlog\Seo\Text;
+use Laravel\Ai\Facades\Ai;
 use RuntimeException;
 
 /**
@@ -103,7 +104,7 @@ class LaravelAiAssistant implements Assistant
      */
     protected function complete(string $system, string $prompt): string
     {
-        if (! class_exists(\Laravel\Ai\Facades\Ai::class)) {
+        if (! class_exists(Ai::class)) {
             throw new RuntimeException(
                 'Laravel AI Blog\'s AI features need the laravel/ai SDK: composer require laravel/ai. '
                 .'Or set ai-blog.ai.enabled=false to run without AI.'
@@ -116,7 +117,7 @@ class LaravelAiAssistant implements Assistant
         // TODO(verify): confirm this fluent call against the installed laravel/ai version —
         // it is the single integration point, and the SDK's API may differ. Provider/model
         // fall back to the SDK's defaults when null.
-        $response = \Laravel\Ai\Facades\Ai::text()
+        $response = Ai::text()
             ->when($provider, fn ($p) => $p->using($provider, $model))
             ->withSystemPrompt($system)
             ->generate($prompt);

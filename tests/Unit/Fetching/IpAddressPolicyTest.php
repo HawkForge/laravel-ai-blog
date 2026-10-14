@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace AiBlog\Tests\Unit\Fetching;
 
 use AiBlog\Fetching\IpAddressPolicy;
-use PHPUnit\Framework\Attributes\DataProvider;
 use AiBlog\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class IpAddressPolicyTest extends TestCase
 {

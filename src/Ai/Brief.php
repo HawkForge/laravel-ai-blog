@@ -5,9 +5,9 @@ namespace AiBlog\Ai;
 final class Brief
 {
     /**
-     * @param array<int, string> $outline      H2 headings in order
-     * @param array<int, string> $questions    questions the post must answer
-     * @param array<int, string> $relatedTerms secondary keywords to work in
+     * @param  array<int, string>  $outline  H2 headings in order
+     * @param  array<int, string>  $questions  questions the post must answer
+     * @param  array<int, string>  $relatedTerms  secondary keywords to work in
      */
     public function __construct(
         public readonly string $keyword,

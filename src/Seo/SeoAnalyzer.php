@@ -2,11 +2,13 @@
 
 namespace AiBlog\Seo;
 
+use AiBlog\Concerns\HasBlogSeo;
+
 /**
  * On-page SEO analysis. Returns a weighted score and plain-English fixes.
  * Deterministic and dependency-free; the AI layer can turn fixes into rewrites.
  *
- * @see \AiBlog\Concerns\HasBlogSeo
+ * @see HasBlogSeo
  */
 class SeoAnalyzer
 {
