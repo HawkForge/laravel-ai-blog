@@ -3,13 +3,18 @@
 namespace ByteMinus\AiBlog\Tests;
 
 use ByteMinus\AiBlog\AiBlogServiceProvider;
+use Laravel\Ai\AiServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
     protected function getPackageProviders($app): array
     {
-        return [AiBlogServiceProvider::class];
+        // laravel/ai is optional; when it is installed, boot it so the integration test can use its fakes.
+        return array_merge(
+            class_exists(AiServiceProvider::class) ? [AiServiceProvider::class] : [],
+            [AiBlogServiceProvider::class],
+        );
     }
 
     protected function getEnvironmentSetUp($app): void

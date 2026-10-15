@@ -4,7 +4,7 @@ namespace ByteMinus\AiBlog\Ai;
 
 use ByteMinus\AiBlog\Ai\Contracts\Assistant;
 use ByteMinus\AiBlog\Seo\Text;
-use Laravel\Ai\Facades\Ai;
+use Laravel\Ai\AnonymousAgent;
 use RuntimeException;
 
 /**
@@ -104,7 +104,7 @@ class LaravelAiAssistant implements Assistant
      */
     protected function complete(string $system, string $prompt): string
     {
-        if (! class_exists(Ai::class)) {
+        if (! class_exists(AnonymousAgent::class)) {
             throw new RuntimeException(
                 'Laravel AI Blog\'s AI features need the laravel/ai SDK: composer require laravel/ai. '
                 .'Or set ai-blog.ai.enabled=false to run without AI.'
@@ -114,13 +114,9 @@ class LaravelAiAssistant implements Assistant
         $provider = config('ai-blog.ai.provider');
         $model = config('ai-blog.ai.model');
 
-        // TODO(verify): confirm this fluent call against the installed laravel/ai version —
-        // it is the single integration point, and the SDK's API may differ. Provider/model
+        // A one-off agent with the system prompt as its instructions. Provider and model
         // fall back to the SDK's defaults when null.
-        $response = Ai::text()
-            ->when($provider, fn ($p) => $p->using($provider, $model))
-            ->withSystemPrompt($system)
-            ->generate($prompt);
+        $response = (new AnonymousAgent($system, [], []))->prompt($prompt, provider: $provider, model: $model);
 
         return (string) $response;
     }
