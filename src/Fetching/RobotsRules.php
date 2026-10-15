@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching;
+namespace ByteMinus\AiBlog\Fetching;
 
 /**
  * One site's robots.txt, read the way RFC 9309 says.

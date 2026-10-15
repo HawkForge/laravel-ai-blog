@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
 /**
  * One command: the ability it needs, the params it takes, and a thin call

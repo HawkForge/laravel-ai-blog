@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Seo;
+namespace ByteMinus\AiBlog\Seo;
 
 final class SeoCheck
 {

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Unit\Fetching;
+namespace ByteMinus\AiBlog\Tests\Unit\Fetching;
 
-use AiBlog\Fetching\Exceptions\FetchFailed;
-use AiBlog\Fetching\Exceptions\FetchRefused;
-use AiBlog\Fetching\FetchRefusal;
-use AiBlog\Fetching\HostResolver;
-use AiBlog\Fetching\IpAddressPolicy;
-use AiBlog\Fetching\SafeFetcher;
-use AiBlog\Fetching\SystemHostResolver;
-use AiBlog\Fetching\UrlGuard;
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Fetching\Exceptions\FetchFailed;
+use ByteMinus\AiBlog\Fetching\Exceptions\FetchRefused;
+use ByteMinus\AiBlog\Fetching\FetchRefusal;
+use ByteMinus\AiBlog\Fetching\HostResolver;
+use ByteMinus\AiBlog\Fetching\IpAddressPolicy;
+use ByteMinus\AiBlog\Fetching\SafeFetcher;
+use ByteMinus\AiBlog\Fetching\SystemHostResolver;
+use ByteMinus\AiBlog\Fetching\UrlGuard;
+use ByteMinus\AiBlog\Tests\TestCase;
 use Closure;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request;

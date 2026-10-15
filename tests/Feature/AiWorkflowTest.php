@@ -1,10 +1,10 @@
 <?php
 
-use AiBlog\Ai\Contracts\Assistant;
-use AiBlog\Ai\FakeAssistant;
-use AiBlog\Enums\PostStatus;
-use AiBlog\Facades\AiBlog;
-use AiBlog\Models\Post;
+use ByteMinus\AiBlog\Ai\Contracts\Assistant;
+use ByteMinus\AiBlog\Ai\FakeAssistant;
+use ByteMinus\AiBlog\Enums\PostStatus;
+use ByteMinus\AiBlog\Facades\AiBlog;
+use ByteMinus\AiBlog\Models\Post;
 
 it('drafts a post from a keyword and never publishes it', function () {
     $post = AiBlog::draftFromKeyword('laravel queues');

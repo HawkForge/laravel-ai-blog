@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Seo;
+namespace ByteMinus\AiBlog\Seo;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;

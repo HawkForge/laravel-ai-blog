@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Mcp\Tools\Concerns;
+namespace ByteMinus\AiBlog\Mcp\Tools\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 

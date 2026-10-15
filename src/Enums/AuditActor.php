@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Enums;
+namespace ByteMinus\AiBlog\Enums;
 
 /** Who made a change recorded in the audit trail: a person, a queued job, a connected credential (ChatGPT), or the Brain. */
 enum AuditActor: string

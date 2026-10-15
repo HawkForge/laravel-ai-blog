@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching;
+namespace ByteMinus\AiBlog\Fetching;
 
-use AiBlog\Fetching\Exceptions\FetchRefused;
+use ByteMinus\AiBlog\Fetching\Exceptions\FetchRefused;
 use GuzzleHttp\Psr7\Uri;
 use InvalidArgumentException;
 

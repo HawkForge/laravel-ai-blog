@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Enums;
+namespace ByteMinus\AiBlog\Enums;
 
 enum PostStatus: string
 {

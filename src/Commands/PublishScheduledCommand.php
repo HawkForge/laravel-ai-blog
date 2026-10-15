@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Commands;
+namespace ByteMinus\AiBlog\Commands;
 
 use Illuminate\Console\Command;
 

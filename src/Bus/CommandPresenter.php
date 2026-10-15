@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Models\Command;
+use ByteMinus\AiBlog\Models\Command;
 
 /**
  * How a stored command looks to whoever asked for it. Keys of the result

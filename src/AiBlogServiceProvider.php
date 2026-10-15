@@ -1,18 +1,18 @@
 <?php
 
-namespace AiBlog;
+namespace ByteMinus\AiBlog;
 
-use AiBlog\Ai\Contracts\Assistant;
-use AiBlog\Ai\FakeAssistant;
-use AiBlog\Bus\Actor;
-use AiBlog\Bus\CommandRegistry;
-use AiBlog\Commands\AuditCommand;
-use AiBlog\Commands\PublishScheduledCommand;
-use AiBlog\Fetching\HostResolver;
-use AiBlog\Fetching\SystemHostResolver;
-use AiBlog\Mcp\BlogServer;
-use AiBlog\Seo\LinkSuggester;
-use AiBlog\Seo\SeoAnalyzer;
+use ByteMinus\AiBlog\Ai\Contracts\Assistant;
+use ByteMinus\AiBlog\Ai\FakeAssistant;
+use ByteMinus\AiBlog\Bus\Actor;
+use ByteMinus\AiBlog\Bus\CommandRegistry;
+use ByteMinus\AiBlog\Commands\AuditCommand;
+use ByteMinus\AiBlog\Commands\PublishScheduledCommand;
+use ByteMinus\AiBlog\Fetching\HostResolver;
+use ByteMinus\AiBlog\Fetching\SystemHostResolver;
+use ByteMinus\AiBlog\Mcp\BlogServer;
+use ByteMinus\AiBlog\Seo\LinkSuggester;
+use ByteMinus\AiBlog\Seo\SeoAnalyzer;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Mcp\Facades\Mcp;
 use Spatie\LaravelPackageTools\Package;

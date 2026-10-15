@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Unit\Fetching;
+namespace ByteMinus\AiBlog\Tests\Unit\Fetching;
 
-use AiBlog\Fetching\HostResolver;
+use ByteMinus\AiBlog\Fetching\HostResolver;
 
 /**
  * A resolver that answers from a table, and can change its answer after the

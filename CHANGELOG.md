@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Breaking: the package moved to the byteminus organisation. Install `byteminus/laravel-ai-blog` instead of `hawkforge/laravel-ai-blog`, and change `use AiBlog\...` to `use ByteMinus\AiBlog\...` in your code. Published config files need the same change.
+
 ## 0.1.1 - 2026-10-14
 
 - SEO: post pages now send a canonical URL by default (the post's own address), `og:url`, `og:site_name`, `article:modified_time`, an absolute `og:image` and `twitter:image`, and a `robots` tag that allows large image previews; empty description tags are no longer sent

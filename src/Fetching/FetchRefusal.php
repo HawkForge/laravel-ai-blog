@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching;
+namespace ByteMinus\AiBlog\Fetching;
 
 /**
  * Why the fetcher said no. Stored as a string wherever a refusal is recorded.

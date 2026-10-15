@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Bus\Exceptions\CommandRefused;
+use ByteMinus\AiBlog\Bus\Exceptions\CommandRefused;
 use InvalidArgumentException;
 
 /**

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Feature;
+namespace ByteMinus\AiBlog\Tests\Feature;
 
-use AiBlog\Models\Post;
-use AiBlog\Seo\StructuredData;
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Models\Post;
+use ByteMinus\AiBlog\Seo\StructuredData;
+use ByteMinus\AiBlog\Tests\TestCase;
 
 class SeoOutputTest extends TestCase
 {

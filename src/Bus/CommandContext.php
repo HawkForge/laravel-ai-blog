@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Models\Command;
+use ByteMinus\AiBlog\Models\Command;
 
 /**
  * Everything a handler gets: the stored command, who asked and the

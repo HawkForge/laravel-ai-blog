@@ -1,14 +1,14 @@
 <?php
 
-namespace AiBlog;
+namespace ByteMinus\AiBlog;
 
-use AiBlog\Ai\Brief;
-use AiBlog\Ai\Contracts\Assistant;
-use AiBlog\Ai\Draft;
-use AiBlog\Models\Post;
-use AiBlog\Seo\LinkSuggester;
-use AiBlog\Seo\SeoAnalyzer;
-use AiBlog\Seo\SeoReport;
+use ByteMinus\AiBlog\Ai\Brief;
+use ByteMinus\AiBlog\Ai\Contracts\Assistant;
+use ByteMinus\AiBlog\Ai\Draft;
+use ByteMinus\AiBlog\Models\Post;
+use ByteMinus\AiBlog\Seo\LinkSuggester;
+use ByteMinus\AiBlog\Seo\SeoAnalyzer;
+use ByteMinus\AiBlog\Seo\SeoReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

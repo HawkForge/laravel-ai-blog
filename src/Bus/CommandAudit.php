@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Models\AuditEvent;
-use AiBlog\Models\Command;
+use ByteMinus\AiBlog\Models\AuditEvent;
+use ByteMinus\AiBlog\Models\Command;
 use Illuminate\Support\Facades\Request;
 
 /**

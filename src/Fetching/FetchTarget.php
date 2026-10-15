@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching;
+namespace ByteMinus\AiBlog\Fetching;
 
 /**
  * A URL that passed {@see UrlGuard}: http or https, no credentials, a

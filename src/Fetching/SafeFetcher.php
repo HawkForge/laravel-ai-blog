@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching;
+namespace ByteMinus\AiBlog\Fetching;
 
-use AiBlog\Fetching\Exceptions\FetchFailed;
-use AiBlog\Fetching\Exceptions\FetchRefused;
+use ByteMinus\AiBlog\Fetching\Exceptions\FetchFailed;
+use ByteMinus\AiBlog\Fetching\Exceptions\FetchRefused;
 use Carbon\CarbonImmutable;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Uri;

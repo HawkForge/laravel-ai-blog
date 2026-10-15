@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Models;
+namespace ByteMinus\AiBlog\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

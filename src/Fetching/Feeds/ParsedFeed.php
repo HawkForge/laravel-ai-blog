@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching\Feeds;
+namespace ByteMinus\AiBlog\Fetching\Feeds;
 
 /**
  * A feed after parsing: which format it was, its title and home page when it

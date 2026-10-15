@@ -9,7 +9,7 @@ Security fixes go to the latest release.
 Please **do not open a public issue** for a security problem.
 
 Use GitHub's private reporting instead: open the
-[Security tab](https://github.com/HawkForge/laravel-ai-blog/security) of this repository and choose
+[Security tab](https://github.com/byteminus/laravel-ai-blog/security) of this repository and choose
 **Report a vulnerability**. Include what you found, how to reproduce it and the version affected.
 
 You can expect an acknowledgement within a few days and a fix or a plan once the report is confirmed.

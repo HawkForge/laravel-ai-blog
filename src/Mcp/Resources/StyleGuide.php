@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Mcp\Resources;
+namespace ByteMinus\AiBlog\Mcp\Resources;
 
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;

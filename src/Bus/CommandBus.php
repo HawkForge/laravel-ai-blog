@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Bus\Exceptions\CommandRefused;
-use AiBlog\Enums\CommandStatus;
-use AiBlog\Models\Command;
+use ByteMinus\AiBlog\Bus\Exceptions\CommandRefused;
+use ByteMinus\AiBlog\Enums\CommandStatus;
+use ByteMinus\AiBlog\Models\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;

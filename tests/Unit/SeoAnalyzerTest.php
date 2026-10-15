@@ -1,9 +1,9 @@
 <?php
 
-use AiBlog\Facades\AiBlog;
-use AiBlog\Models\Post;
-use AiBlog\Seo\SeoAnalyzer;
-use AiBlog\Seo\Text;
+use ByteMinus\AiBlog\Facades\AiBlog;
+use ByteMinus\AiBlog\Models\Post;
+use ByteMinus\AiBlog\Seo\SeoAnalyzer;
+use ByteMinus\AiBlog\Seo\Text;
 
 it('gives a high score to a well-optimized post', function () {
     $post = Post::create([

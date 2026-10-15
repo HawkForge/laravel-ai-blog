@@ -1,10 +1,10 @@
 <?php
 
-namespace AiBlog\Tests\Feature\Bus\Handlers;
+namespace ByteMinus\AiBlog\Tests\Feature\Bus\Handlers;
 
-use AiBlog\Bus\CommandContext;
-use AiBlog\Bus\CommandHandler;
-use AiBlog\Bus\CommandOutcome;
+use ByteMinus\AiBlog\Bus\CommandContext;
+use ByteMinus\AiBlog\Bus\CommandHandler;
+use ByteMinus\AiBlog\Bus\CommandOutcome;
 
 final class QueuesWork extends CommandHandler
 {

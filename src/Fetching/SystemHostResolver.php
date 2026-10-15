@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching;
+namespace ByteMinus\AiBlog\Fetching;
 
 /**
  * The operating system's resolver: `gethostbynamel()` for IPv4, which goes

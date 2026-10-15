@@ -1,15 +1,15 @@
 <?php
 
-namespace AiBlog\Mcp;
+namespace ByteMinus\AiBlog\Mcp;
 
-use AiBlog\Mcp\Tools\CreateDraft;
-use AiBlog\Mcp\Tools\DraftFromKeyword;
-use AiBlog\Mcp\Tools\GetPost;
-use AiBlog\Mcp\Tools\ListPosts;
-use AiBlog\Mcp\Tools\SchedulePost;
-use AiBlog\Mcp\Tools\ScorePost;
-use AiBlog\Mcp\Tools\SuggestLinks;
-use AiBlog\Mcp\Tools\UpdatePost;
+use ByteMinus\AiBlog\Mcp\Tools\CreateDraft;
+use ByteMinus\AiBlog\Mcp\Tools\DraftFromKeyword;
+use ByteMinus\AiBlog\Mcp\Tools\GetPost;
+use ByteMinus\AiBlog\Mcp\Tools\ListPosts;
+use ByteMinus\AiBlog\Mcp\Tools\SchedulePost;
+use ByteMinus\AiBlog\Mcp\Tools\ScorePost;
+use ByteMinus\AiBlog\Mcp\Tools\SuggestLinks;
+use ByteMinus\AiBlog\Mcp\Tools\UpdatePost;
 use Laravel\Mcp\Server;
 
 /**

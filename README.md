@@ -1,10 +1,10 @@
 # Laravel AI Blog — the AI-native blog package for Laravel
 
-[![tests](https://github.com/HawkForge/laravel-ai-blog/actions/workflows/tests.yml/badge.svg)](https://github.com/HawkForge/laravel-ai-blog/actions)
-[![Latest Version](https://img.shields.io/packagist/v/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
-[![Downloads](https://img.shields.io/packagist/dt/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
-[![PHP](https://img.shields.io/packagist/php-v/hawkforge/laravel-ai-blog.svg)](https://packagist.org/packages/hawkforge/laravel-ai-blog)
-[![License](https://img.shields.io/github/license/HawkForge/laravel-ai-blog.svg)](LICENSE.md)
+[![tests](https://github.com/byteminus/laravel-ai-blog/actions/workflows/tests.yml/badge.svg)](https://github.com/byteminus/laravel-ai-blog/actions)
+[![Latest Version](https://img.shields.io/packagist/v/byteminus/laravel-ai-blog.svg)](https://packagist.org/packages/byteminus/laravel-ai-blog)
+[![Downloads](https://img.shields.io/packagist/dt/byteminus/laravel-ai-blog.svg)](https://packagist.org/packages/byteminus/laravel-ai-blog)
+[![PHP](https://img.shields.io/packagist/php-v/byteminus/laravel-ai-blog.svg)](https://packagist.org/packages/byteminus/laravel-ai-blog)
+[![License](https://img.shields.io/github/license/byteminus/laravel-ai-blog.svg)](LICENSE.md)
 
 **Install it, and your blog thinks.** Laravel AI Blog is a free, open-source blog package for Laravel 10 to 13. It
 plans topics, drafts *with* you, scores every post for on-page SEO, links itself, keeps itself fresh — and lets
@@ -30,7 +30,7 @@ about 256 levels of nesting (it returns no text for a page nested deeper, never 
 ## Install
 
 ```bash
-composer require hawkforge/laravel-ai-blog
+composer require byteminus/laravel-ai-blog
 php artisan vendor:publish --tag=laravel-ai-blog-migrations
 php artisan migrate
 ```
@@ -44,8 +44,8 @@ composer require laravel/ai laravel/mcp
 ## 60-second tour
 
 ```php
-use AiBlog\Facades\AiBlog;
-use AiBlog\Models\Post;
+use ByteMinus\AiBlog\Facades\AiBlog;
+use ByteMinus\AiBlog\Models\Post;
 
 // Score any post. Deterministic, no API key needed.
 $report = $post->seoReport();
@@ -78,7 +78,7 @@ php artisan ai-blog:audit --stale    # posts due for a refresh
 Keep it. Add the trait, point the config at your model, done.
 
 ```php
-use AiBlog\Concerns\HasBlogSeo;
+use ByteMinus\AiBlog\Concerns\HasBlogSeo;
 
 class Post extends Model
 {
@@ -123,9 +123,9 @@ For Claude.ai and ChatGPT custom connectors, use laravel/mcp's OAuth support (`M
 from a queued job or an Artisan command: it **refuses to run inside a web request**.
 
 ```php
-use AiBlog\Fetching\Feeds\FeedParser;
-use AiBlog\Fetching\SafeFetcher;
-use AiBlog\Fetching\TextExtractor;
+use ByteMinus\AiBlog\Fetching\Feeds\FeedParser;
+use ByteMinus\AiBlog\Fetching\SafeFetcher;
+use ByteMinus\AiBlog\Fetching\TextExtractor;
 
 $document = app(SafeFetcher::class)->fetch('https://example.com/feed.xml');
 
@@ -147,12 +147,12 @@ rules: the actor must hold the command's **ability**, every request carries an *
 replays the stored result instead of running twice), and each outcome is written to an **audit trail**.
 
 ```php
-use AiBlog\Bus\Actor;
-use AiBlog\Bus\CommandBus;
-use AiBlog\Bus\CommandContext;
-use AiBlog\Bus\CommandHandler;
-use AiBlog\Bus\CommandOutcome;
-use AiBlog\Bus\CommandRequest;
+use ByteMinus\AiBlog\Bus\Actor;
+use ByteMinus\AiBlog\Bus\CommandBus;
+use ByteMinus\AiBlog\Bus\CommandContext;
+use ByteMinus\AiBlog\Bus\CommandHandler;
+use ByteMinus\AiBlog\Bus\CommandOutcome;
+use ByteMinus\AiBlog\Bus\CommandRequest;
 
 final class RenamePost extends CommandHandler
 {

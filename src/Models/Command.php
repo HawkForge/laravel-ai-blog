@@ -1,9 +1,9 @@
 <?php
 
-namespace AiBlog\Models;
+namespace ByteMinus\AiBlog\Models;
 
-use AiBlog\Enums\AuditActor;
-use AiBlog\Enums\CommandStatus;
+use ByteMinus\AiBlog\Enums\AuditActor;
+use ByteMinus\AiBlog\Enums\CommandStatus;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;

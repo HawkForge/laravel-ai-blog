@@ -1,8 +1,8 @@
 <?php
 
-namespace AiBlog\Models;
+namespace ByteMinus\AiBlog\Models;
 
-use AiBlog\Enums\AuditActor;
+use ByteMinus\AiBlog\Enums\AuditActor;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use LogicException;

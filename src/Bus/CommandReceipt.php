@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Models\Command;
+use ByteMinus\AiBlog\Models\Command;
 
 /**
  * The stored command a request made or found, whether it was a replay, and

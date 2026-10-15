@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Unit\Fetching;
+namespace ByteMinus\AiBlog\Tests\Unit\Fetching;
 
-use AiBlog\Fetching\Exceptions\FeedUnreadable;
-use AiBlog\Fetching\Feeds\FeedFormat;
-use AiBlog\Fetching\Feeds\FeedParser;
-use AiBlog\Fetching\FetchedDocument;
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Fetching\Exceptions\FeedUnreadable;
+use ByteMinus\AiBlog\Fetching\Feeds\FeedFormat;
+use ByteMinus\AiBlog\Fetching\Feeds\FeedParser;
+use ByteMinus\AiBlog\Fetching\FetchedDocument;
+use ByteMinus\AiBlog\Tests\TestCase;
 use Carbon\CarbonImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 

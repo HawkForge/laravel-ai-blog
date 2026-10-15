@@ -1,7 +1,7 @@
 @props(['post'])
 @php
-    $url = \AiBlog\Seo\StructuredData::urlFor($post);
-    $image = \AiBlog\Seo\StructuredData::imageUrl($post);
+    $url = \ByteMinus\AiBlog\Seo\StructuredData::urlFor($post);
+    $image = \ByteMinus\AiBlog\Seo\StructuredData::imageUrl($post);
     $imageAlt = $post->featured_image_alt ?? null;
     $site = config('ai-blog.seo.site_name');
     $description = $post->seoDescription() ?: trim((string) ($post->excerpt ?? ''));

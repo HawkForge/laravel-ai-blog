@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Unit\Fetching;
+namespace ByteMinus\AiBlog\Tests\Unit\Fetching;
 
-use AiBlog\Fetching\LegacyHtmlDocument;
-use AiBlog\Fetching\TextExtractor;
+use ByteMinus\AiBlog\Fetching\LegacyHtmlDocument;
+use ByteMinus\AiBlog\Fetching\TextExtractor;
 
 /**
  * Runs every TextExtractorTest case against the libxml2 parser that PHP older

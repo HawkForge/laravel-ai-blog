@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
 /**
  * What a caller asked for. Plain values only; nothing in here is trusted

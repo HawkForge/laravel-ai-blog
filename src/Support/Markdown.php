@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Support;
+namespace ByteMinus\AiBlog\Support;
 
 use League\CommonMark\CommonMarkConverter;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizer;

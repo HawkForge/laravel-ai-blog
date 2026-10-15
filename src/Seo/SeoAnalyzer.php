@@ -1,8 +1,8 @@
 <?php
 
-namespace AiBlog\Seo;
+namespace ByteMinus\AiBlog\Seo;
 
-use AiBlog\Concerns\HasBlogSeo;
+use ByteMinus\AiBlog\Concerns\HasBlogSeo;
 
 /**
  * On-page SEO analysis. Returns a weighted score and plain-English fixes.

@@ -1,8 +1,8 @@
 <?php
 
-namespace AiBlog\Commands;
+namespace ByteMinus\AiBlog\Commands;
 
-use AiBlog\AiBlog;
+use ByteMinus\AiBlog\AiBlog;
 use Illuminate\Console\Command;
 
 class AuditCommand extends Command

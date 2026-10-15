@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching\Exceptions;
+namespace ByteMinus\AiBlog\Fetching\Exceptions;
 
-use AiBlog\Fetching\FetchRefusal;
+use ByteMinus\AiBlog\Fetching\FetchRefusal;
 
 /**
  * The fetcher would not fetch, or would not keep, this URL: a policy said no.

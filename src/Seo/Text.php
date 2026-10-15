@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Seo;
+namespace ByteMinus\AiBlog\Seo;
 
 /**
  * Small text utilities shared by the analyzer and link suggester.

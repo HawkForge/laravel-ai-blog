@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
-use AiBlog\Enums\CommandStatus;
+use ByteMinus\AiBlog\Enums\CommandStatus;
 
 /**
  * What a handler did. `result` is stored on the command and returned on

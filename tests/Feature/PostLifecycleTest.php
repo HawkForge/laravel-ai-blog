@@ -1,12 +1,12 @@
 <?php
 
-use AiBlog\Enums\PostStatus;
-use AiBlog\Events\PostPublished;
-use AiBlog\Events\PostScheduled;
-use AiBlog\Models\Category;
-use AiBlog\Models\Post;
-use AiBlog\Models\Tag;
-use AiBlog\Seo\StructuredData;
+use ByteMinus\AiBlog\Enums\PostStatus;
+use ByteMinus\AiBlog\Events\PostPublished;
+use ByteMinus\AiBlog\Events\PostScheduled;
+use ByteMinus\AiBlog\Models\Category;
+use ByteMinus\AiBlog\Models\Post;
+use ByteMinus\AiBlog\Models\Tag;
+use ByteMinus\AiBlog\Seo\StructuredData;
 use Illuminate\Support\Facades\Event;
 
 it('creates a draft with a slug by default', function () {

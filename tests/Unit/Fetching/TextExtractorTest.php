@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Unit\Fetching;
+namespace ByteMinus\AiBlog\Tests\Unit\Fetching;
 
-use AiBlog\Fetching\FetchedDocument;
-use AiBlog\Fetching\TextExtractor;
-use AiBlog\Fetching\UntrustedText;
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Fetching\FetchedDocument;
+use ByteMinus\AiBlog\Fetching\TextExtractor;
+use ByteMinus\AiBlog\Fetching\UntrustedText;
+use ByteMinus\AiBlog\Tests\TestCase;
 use Carbon\CarbonImmutable;
 use Dom\HTMLDocument;
 

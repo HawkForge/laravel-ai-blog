@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Ai;
+namespace ByteMinus\AiBlog\Ai;
 
 /**
  * All prompts in one place so contributors can improve them without touching logic.

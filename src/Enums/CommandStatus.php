@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Enums;
+namespace ByteMinus\AiBlog\Enums;
 
 /** Where a command is in its life. */
 enum CommandStatus: string

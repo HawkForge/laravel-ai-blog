@@ -1,6 +1,6 @@
 <?php
 
-use AiBlog\Http\Controllers\BlogController;
+use ByteMinus\AiBlog\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('ai-blog.routes.prefix', 'blog'))

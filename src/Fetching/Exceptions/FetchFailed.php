@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching\Exceptions;
+namespace ByteMinus\AiBlog\Fetching\Exceptions;
 
 /**
  * The fetch was allowed but did not work: the host did not answer, took too

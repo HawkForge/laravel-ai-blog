@@ -1,9 +1,9 @@
 <?php
 
-use AiBlog\Ai\LaravelAiAssistant;
-use AiBlog\Models\Category;
-use AiBlog\Models\Post;
-use AiBlog\Models\Tag;
+use ByteMinus\AiBlog\Ai\LaravelAiAssistant;
+use ByteMinus\AiBlog\Models\Category;
+use ByteMinus\AiBlog\Models\Post;
+use ByteMinus\AiBlog\Models\Tag;
 
 return [
 
@@ -13,7 +13,7 @@ return [
     |--------------------------------------------------------------------------
     | Swap in your own models. Any class here must extend (or behave like)
     | the package model it replaces. If you already have a Post model, add
-    | the AiBlog\Concerns\HasBlogSeo trait to it and point `post` at it.
+    | the ByteMinus\AiBlog\Concerns\HasBlogSeo trait to it and point `post` at it.
     */
     'models' => [
         'post' => Post::class,
@@ -66,7 +66,7 @@ return [
     | AI
     |--------------------------------------------------------------------------
     | Built on the official laravel/ai SDK. `assistant` can be any class
-    | implementing AiBlog\Ai\Contracts\Assistant. Auto-publishing is OFF by
+    | implementing ByteMinus\AiBlog\Ai\Contracts\Assistant. Auto-publishing is OFF by
     | default and must be enabled knowingly — Laravel AI Blog assists writers, it
     | does not replace them.
     */

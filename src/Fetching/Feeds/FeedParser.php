@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching\Feeds;
+namespace ByteMinus\AiBlog\Fetching\Feeds;
 
-use AiBlog\Fetching\Exceptions\FeedUnreadable;
-use AiBlog\Fetching\FetchedDocument;
-use AiBlog\Fetching\UntrustedText;
+use ByteMinus\AiBlog\Fetching\Exceptions\FeedUnreadable;
+use ByteMinus\AiBlog\Fetching\FetchedDocument;
+use ByteMinus\AiBlog\Fetching\UntrustedText;
 use Carbon\CarbonImmutable;
 use DOMDocument;
 use DOMElement;

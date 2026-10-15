@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Tests\Unit\Fetching;
+namespace ByteMinus\AiBlog\Tests\Unit\Fetching;
 
-use AiBlog\Fetching\Exceptions\FetchRefused;
-use AiBlog\Fetching\FetchRefusal;
-use AiBlog\Fetching\IpAddressPolicy;
-use AiBlog\Fetching\UrlGuard;
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Fetching\Exceptions\FetchRefused;
+use ByteMinus\AiBlog\Fetching\FetchRefusal;
+use ByteMinus\AiBlog\Fetching\IpAddressPolicy;
+use ByteMinus\AiBlog\Fetching\UrlGuard;
+use ByteMinus\AiBlog\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class UrlGuardTest extends TestCase

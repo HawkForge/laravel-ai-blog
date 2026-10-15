@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching\Feeds;
+namespace ByteMinus\AiBlog\Fetching\Feeds;
 
 /**
  * The feed formats {@see FeedParser} reads.

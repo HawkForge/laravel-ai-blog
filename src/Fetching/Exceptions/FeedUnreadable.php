@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Fetching\Exceptions;
+namespace ByteMinus\AiBlog\Fetching\Exceptions;
 
 use RuntimeException;
 

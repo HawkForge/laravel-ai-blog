@@ -1,6 +1,6 @@
 <?php
 
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 

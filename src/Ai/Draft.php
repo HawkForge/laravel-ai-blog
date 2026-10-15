@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Ai;
+namespace ByteMinus\AiBlog\Ai;
 
 final class Draft
 {

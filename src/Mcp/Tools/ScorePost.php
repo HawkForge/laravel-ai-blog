@@ -1,9 +1,9 @@
 <?php
 
-namespace AiBlog\Mcp\Tools;
+namespace ByteMinus\AiBlog\Mcp\Tools;
 
-use AiBlog\AiBlog;
-use AiBlog\Mcp\Tools\Concerns\SerializesPosts;
+use ByteMinus\AiBlog\AiBlog;
+use ByteMinus\AiBlog\Mcp\Tools\Concerns\SerializesPosts;
 use Illuminate\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;

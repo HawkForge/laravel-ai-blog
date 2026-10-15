@@ -1,11 +1,11 @@
 <?php
 
-namespace AiBlog\Models;
+namespace ByteMinus\AiBlog\Models;
 
-use AiBlog\Concerns\HasBlogSeo;
-use AiBlog\Enums\PostStatus;
-use AiBlog\Events\PostPublished;
-use AiBlog\Events\PostScheduled;
+use ByteMinus\AiBlog\Concerns\HasBlogSeo;
+use ByteMinus\AiBlog\Enums\PostStatus;
+use ByteMinus\AiBlog\Events\PostPublished;
+use ByteMinus\AiBlog\Events\PostScheduled;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

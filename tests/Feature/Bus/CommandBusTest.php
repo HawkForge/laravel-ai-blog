@@ -1,24 +1,24 @@
 <?php
 
-namespace AiBlog\Tests\Feature\Bus;
+namespace ByteMinus\AiBlog\Tests\Feature\Bus;
 
-use AiBlog\Bus\Actor;
-use AiBlog\Bus\CommandBus;
-use AiBlog\Bus\CommandPresenter;
-use AiBlog\Bus\CommandRegistry;
-use AiBlog\Bus\CommandRequest;
-use AiBlog\Bus\Exceptions\CommandRefused;
-use AiBlog\Enums\CommandStatus;
-use AiBlog\Models\AuditEvent;
-use AiBlog\Models\Command;
-use AiBlog\Tests\Feature\Bus\Handlers\Explodes;
-use AiBlog\Tests\Feature\Bus\Handlers\HandlerRuns;
-use AiBlog\Tests\Feature\Bus\Handlers\IssuesConfirmation;
-use AiBlog\Tests\Feature\Bus\Handlers\PeopleOnly;
-use AiBlog\Tests\Feature\Bus\Handlers\QueuesWork;
-use AiBlog\Tests\Feature\Bus\Handlers\RefusesInside;
-use AiBlog\Tests\Feature\Bus\Handlers\RenamePost;
-use AiBlog\Tests\TestCase;
+use ByteMinus\AiBlog\Bus\Actor;
+use ByteMinus\AiBlog\Bus\CommandBus;
+use ByteMinus\AiBlog\Bus\CommandPresenter;
+use ByteMinus\AiBlog\Bus\CommandRegistry;
+use ByteMinus\AiBlog\Bus\CommandRequest;
+use ByteMinus\AiBlog\Bus\Exceptions\CommandRefused;
+use ByteMinus\AiBlog\Enums\CommandStatus;
+use ByteMinus\AiBlog\Models\AuditEvent;
+use ByteMinus\AiBlog\Models\Command;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\Explodes;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\HandlerRuns;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\IssuesConfirmation;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\PeopleOnly;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\QueuesWork;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\RefusesInside;
+use ByteMinus\AiBlog\Tests\Feature\Bus\Handlers\RenamePost;
+use ByteMinus\AiBlog\Tests\TestCase;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Support\Facades\Gate;

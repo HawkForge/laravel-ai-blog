@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus\Exceptions;
+namespace ByteMinus\AiBlog\Bus\Exceptions;
 
 use RuntimeException;
 

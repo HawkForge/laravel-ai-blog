@@ -1,8 +1,8 @@
 <?php
 
-namespace AiBlog\Mcp\Tools;
+namespace ByteMinus\AiBlog\Mcp\Tools;
 
-use AiBlog\Mcp\Tools\Concerns\SerializesPosts;
+use ByteMinus\AiBlog\Mcp\Tools\Concerns\SerializesPosts;
 use Illuminate\JsonSchema\JsonSchema;
 use Illuminate\Support\Carbon;
 use Laravel\Mcp\Request;

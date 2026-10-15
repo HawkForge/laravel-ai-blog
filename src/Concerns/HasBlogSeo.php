@@ -1,12 +1,12 @@
 <?php
 
-namespace AiBlog\Concerns;
+namespace ByteMinus\AiBlog\Concerns;
 
-use AiBlog\Ai\Contracts\Assistant;
-use AiBlog\Seo\LinkSuggester;
-use AiBlog\Seo\SeoAnalyzer;
-use AiBlog\Seo\SeoReport;
-use AiBlog\Seo\StructuredData;
+use ByteMinus\AiBlog\Ai\Contracts\Assistant;
+use ByteMinus\AiBlog\Seo\LinkSuggester;
+use ByteMinus\AiBlog\Seo\SeoAnalyzer;
+use ByteMinus\AiBlog\Seo\SeoReport;
+use ByteMinus\AiBlog\Seo\StructuredData;
 use Illuminate\Support\Collection;
 
 /**

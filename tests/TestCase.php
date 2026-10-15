@@ -1,8 +1,8 @@
 <?php
 
-namespace AiBlog\Tests;
+namespace ByteMinus\AiBlog\Tests;
 
-use AiBlog\AiBlogServiceProvider;
+use ByteMinus\AiBlog\AiBlogServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

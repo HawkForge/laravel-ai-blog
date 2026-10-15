@@ -1,9 +1,9 @@
 <?php
 
-namespace AiBlog\Ai\Contracts;
+namespace ByteMinus\AiBlog\Ai\Contracts;
 
-use AiBlog\Ai\Brief;
-use AiBlog\Ai\Draft;
+use ByteMinus\AiBlog\Ai\Brief;
+use ByteMinus\AiBlog\Ai\Draft;
 
 /**
  * Everything the package asks an AI to do. Implement this to use any provider;

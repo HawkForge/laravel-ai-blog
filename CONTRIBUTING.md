@@ -5,7 +5,7 @@ Thanks for helping. Laravel AI Blog is MIT and built by the community — small 
 ## Setup
 
 ```bash
-git clone https://github.com/HawkForge/laravel-ai-blog && cd laravel-ai-blog
+git clone https://github.com/byteminus/laravel-ai-blog && cd laravel-ai-blog
 composer install
 composer test
 ```

@@ -1,6 +1,6 @@
 <?php
 
-namespace AiBlog\Events;
+namespace ByteMinus\AiBlog\Events;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;

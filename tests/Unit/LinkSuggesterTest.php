@@ -1,7 +1,7 @@
 <?php
 
-use AiBlog\Models\Post;
-use AiBlog\Seo\LinkSuggester;
+use ByteMinus\AiBlog\Models\Post;
+use ByteMinus\AiBlog\Seo\LinkSuggester;
 
 beforeEach(function () {
     $this->queues = Post::create([

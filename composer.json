@@ -1,20 +1,24 @@
 {
-    "name": "hawkforge/laravel-ai-blog",
+    "name": "byteminus/laravel-ai-blog",
     "description": "Laravel blog package with built-in SEO scoring, AI drafting (laravel/ai) and an MCP server so Claude and ChatGPT can write to it. Headless by default.",
     "keywords": ["laravel", "blog", "blogging", "laravel-blog", "ai", "seo", "mcp", "model-context-protocol", "cms", "headless", "json-ld", "structured-data", "rss", "claude", "chatgpt"],
-    "homepage": "https://github.com/HawkForge/laravel-ai-blog",
+    "homepage": "https://github.com/byteminus/laravel-ai-blog",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
+            "name": "Byte Minus",
+            "homepage": "https://github.com/byteminus",
+            "role": "Organization"
+        },
+        {
             "name": "Mr Hawk",
-            "homepage": "https://github.com/HawkForge",
             "role": "Maintainer"
         }
     ],
     "support": {
-        "issues": "https://github.com/HawkForge/laravel-ai-blog/issues",
-        "source": "https://github.com/HawkForge/laravel-ai-blog"
+        "issues": "https://github.com/byteminus/laravel-ai-blog/issues",
+        "source": "https://github.com/byteminus/laravel-ai-blog"
     },
     "require": {
         "php": "^8.2",
@@ -44,12 +48,12 @@
     },
     "autoload": {
         "psr-4": {
-            "AiBlog\\": "src/"
+            "ByteMinus\\AiBlog\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AiBlog\\Tests\\": "tests/"
+            "ByteMinus\\AiBlog\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -67,10 +71,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "AiBlog\\AiBlogServiceProvider"
+                "ByteMinus\\AiBlog\\AiBlogServiceProvider"
             ],
             "aliases": {
-                "AiBlog": "AiBlog\\Facades\\AiBlog"
+                "AiBlog": "ByteMinus\\AiBlog\\Facades\\AiBlog"
             }
         }
     },

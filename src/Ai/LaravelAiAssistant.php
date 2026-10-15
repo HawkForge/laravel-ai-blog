@@ -1,9 +1,9 @@
 <?php
 
-namespace AiBlog\Ai;
+namespace ByteMinus\AiBlog\Ai;
 
-use AiBlog\Ai\Contracts\Assistant;
-use AiBlog\Seo\Text;
+use ByteMinus\AiBlog\Ai\Contracts\Assistant;
+use ByteMinus\AiBlog\Seo\Text;
 use Laravel\Ai\Facades\Ai;
 use RuntimeException;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AiBlog\Bus;
+namespace ByteMinus\AiBlog\Bus;
 
 /**
  * A stable SHA-256 of a value: object keys sorted at every level, so the same
