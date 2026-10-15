@@ -6,6 +6,8 @@
 [![PHP](https://img.shields.io/packagist/php-v/byteminus/laravel-ai-blog.svg)](https://packagist.org/packages/byteminus/laravel-ai-blog)
 [![License](https://img.shields.io/github/license/byteminus/laravel-ai-blog.svg)](LICENSE.md)
 
+**Website and docs:** [byteminus.github.io/laravel-ai-blog](https://byteminus.github.io/laravel-ai-blog/) · For AI assistants: [llms.txt](https://byteminus.github.io/laravel-ai-blog/llms.txt)
+
 **Install it, and your blog thinks.** Laravel AI Blog is a free, open-source blog package for Laravel 10 to 13. It
 plans topics, drafts *with* you, scores every post for on-page SEO, links itself, keeps itself fresh — and lets
 Claude, ChatGPT, Claude Code or any MCP agent write to it.
@@ -31,7 +33,7 @@ about 256 levels of nesting (it returns no text for a page nested deeper, never 
 
 ```bash
 composer require byteminus/laravel-ai-blog
-php artisan vendor:publish --tag=laravel-ai-blog-migrations
+php artisan vendor:publish --tag=ai-blog-migrations
 php artisan migrate
 ```
 
@@ -111,8 +113,8 @@ Then connect:
 claude mcp add --transport http my-blog https://example.com/mcp/ai-blog --header "Authorization: Bearer <token>"
 ```
 
-Tools: `list_posts`, `get_post`, `create_draft`, `update_post`, `draft_from_keyword`, `score_post`,
-`suggest_links`, `schedule_post`. There is deliberately **no `publish_post` tool** — agents draft,
+Tools: `list-posts`, `get-post`, `create-draft`, `update-post`, `draft-from-keyword`, `score-post`,
+`suggest-links`, `schedule-post`. There is deliberately **no `publish-post` tool** — agents draft,
 score, link and schedule; a human (or the scheduler, after a human scheduled it) publishes.
 
 For Claude.ai and ChatGPT custom connectors, use laravel/mcp's OAuth support (`Mcp::oauthRoutes()` with Passport).
@@ -223,8 +225,8 @@ Schedule::command('ai-blog:publish-scheduled')->everyMinute();
 **Does it work without an AI provider?** Yes. Scoring, link suggestions, structured data, the feed and the routes
 need no API key. The AI features are optional and use [laravel/ai](https://github.com/laravel/ai) when you install it.
 
-**Will it publish posts by itself?** No. Everything the AI or an agent writes lands as a draft. Auto-publishing is
-a config flag you turn on yourself.
+**Will it publish posts by itself?** No. Everything the AI or an agent writes lands as a draft. A post goes live when a
+person publishes it, or when the scheduler reaches a time set with `schedule()` or the `schedule-post` tool.
 
 **Can I keep my own Post model?** Yes. Add the `HasBlogSeo` trait and point `ai-blog.models.post` at your model.
 
@@ -237,7 +239,7 @@ a config flag you turn on yourself.
 AI that writes thirty posts a month from a keyword list is what search engines are built to bury.
 Laravel AI Blog makes a **human writer faster** and an **agent safer**: every AI action produces a draft,
 marks unverified claims as `[verify: ...]`, and records how much AI was involved (`ai_assistance`).
-Auto-publishing exists as a config flag you turn on knowingly, never as a default.
+Nothing goes live without a person publishing it or scheduling it.
 
 ## Roadmap
 

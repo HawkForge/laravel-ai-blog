@@ -2,7 +2,7 @@
     "name": "byteminus/laravel-ai-blog",
     "description": "Laravel blog package with built-in SEO scoring, AI drafting (laravel/ai) and an MCP server so Claude and ChatGPT can write to it. Headless by default.",
     "keywords": ["laravel", "blog", "blogging", "laravel-blog", "ai", "seo", "mcp", "model-context-protocol", "cms", "headless", "json-ld", "structured-data", "rss", "claude", "chatgpt"],
-    "homepage": "https://github.com/byteminus/laravel-ai-blog",
+    "homepage": "https://byteminus.github.io/laravel-ai-blog/",
     "license": "MIT",
     "type": "library",
     "authors": [

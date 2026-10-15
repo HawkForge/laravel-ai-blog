@@ -5,3 +5,4 @@
 composer.lock
 .phpstan.cache
 .DS_Store
+/site/public

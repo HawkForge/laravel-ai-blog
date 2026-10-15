@@ -1,0 +1,497 @@
+<title>Laravel AI Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: editorial. Hero = thesis + an agent session; sections pair a narrow label column with content. The red pencil is the editor's mark. */
+:root {
+  --paper: #f8f6f1;
+  --panel: #ffffff;
+  --ink: #1a1823;
+  --muted: #55525f;
+  --line: #e1dcd1;
+  --mark: #b8360f;
+  --mark-soft: #fbe9e1;
+  --ok: #1d7347;
+  --ok-soft: #e2f1e8;
+  --code-bg: #17151e;
+  --code-ink: #e4e1ec;
+  --code-dim: #8f8a9e;
+  --code-key: #9fc2ff;
+  --code-str: #f4b48c;
+  --code-ok: #7ad6a4;
+  --code-no: #ff8f7a;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+  --step-4: clamp(2.4rem, 1.5rem + 4vw, 4.3rem);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121118; --panel: #1a1922; --ink: #ecebf1; --muted: #a9a6b6; --line: #2c2a36;
+    --mark: #ff8a63; --mark-soft: #331c15; --ok: #6fd39c; --ok-soft: #15291e;
+    --code-bg: #0c0b11; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121118; --panel: #1a1922; --ink: #ecebf1; --muted: #a9a6b6; --line: #2c2a36;
+  --mark: #ff8a63; --mark-soft: #331c15; --ok: #6fd39c; --ok-soft: #15291e;
+  --code-bg: #0c0b11; color-scheme: dark;
+}
+
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.65; }
+a { color: var(--mark); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--mark); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.08; text-wrap: balance; margin: 0; letter-spacing: -0.015em; }
+p { margin: 0; }
+code, pre, .mono { font-family: var(--font-mono); }
+:not(pre) > code { font-size: 0.88em; background: var(--mark-soft); color: var(--ink); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+.skip { position: absolute; left: -9999px; top: 8px; background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px; z-index: 20; }
+.skip:focus { left: 16px; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band { padding-block: clamp(56px, 8vw, 104px); }
+.band + .band { border-top: 1px solid var(--line); }
+
+/* Header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--ink); }
+.brand b { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.01em; }
+.brand b i { font-style: normal; color: var(--mark); }
+.brand small { color: var(--muted); font-size: var(--step--1); }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: var(--step--1); }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--ink); }
+@media (max-width: 680px) { .top nav a:not(.keep) { display: none; } .brand small { display: none; } }
+
+/* Hero */
+.hero { padding-block: clamp(40px, 7vw, 88px) clamp(48px, 7vw, 88px); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
+.eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mark); }
+.hero h1 { font-size: var(--step-4); font-weight: 800; margin-top: 14px; }
+.hero h1 em { font-style: italic; color: var(--mark); }
+.lede { margin-top: 20px; max-width: 58ch; color: var(--muted); font-size: var(--step-1); line-height: 1.5; }
+.install { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.cmd { display: flex; align-items: center; gap: 12px; min-width: 0; max-width: 100%; background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius); padding: 12px 12px 12px 16px; font-family: var(--font-mono); font-size: 0.92rem; }
+.cmd span { overflow-x: auto; white-space: nowrap; }
+.cmd span::before { content: "$ "; color: var(--code-dim); }
+.btn { font: 600 0.9rem var(--font-body); border-radius: 8px; padding: 10px 16px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; }
+.btn:hover { border-color: var(--mark); }
+.cmd .btn { background: transparent; color: var(--code-ink); border-color: #3a3747; padding: 6px 12px; font-size: 0.8rem; flex: none; }
+.facts { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: var(--step--1); }
+.facts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* The session: an agent working through the MCP tools */
+.session { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 14px; padding: 20px; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.55; min-width: 0; box-shadow: 0 30px 60px -30px rgba(30, 10, 40, 0.5); }
+.session header { display: flex; justify-content: space-between; gap: 12px; color: var(--code-dim); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; padding-bottom: 12px; border-bottom: 1px dashed #34313f; margin-bottom: 12px; }
+.session ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.session li { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 12px; padding: 6px 8px; border-radius: 6px; animation: scan 10.5s infinite; }
+@media (max-width: 420px) { .session li { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+.session li:nth-child(2) { animation-delay: 1.5s; } .session li:nth-child(3) { animation-delay: 3s; } .session li:nth-child(4) { animation-delay: 4.5s; }
+.session li:nth-child(5) { animation-delay: 6s; } .session li:nth-child(6) { animation-delay: 7.5s; } .session li:nth-child(7) { animation-delay: 9s; }
+@keyframes scan { 0%, 12% { background: rgba(159, 194, 255, 0.1); } 16%, 100% { background: transparent; } }
+.session .k { color: var(--code-key); } .session .s { color: var(--code-str); }
+.session .no { color: var(--code-no); } .session .ok { color: var(--code-ok); font-weight: 600; }
+.session .d { color: var(--code-dim); }
+.session footer { margin-top: 14px; padding-top: 12px; border-top: 1px dashed #34313f; color: var(--code-dim); font-size: 0.74rem; }
+@media (prefers-reduced-motion: reduce) { .session li { animation: none; } }
+
+/* Section scaffolding */
+.sec { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); }
+@media (max-width: 820px) { .sec { grid-template-columns: minmax(0, 1fr); } }
+.sec > header h2 { font-size: var(--step-3); font-weight: 800; }
+.sec > header p { margin-top: 12px; color: var(--muted); max-width: 40ch; }
+.sec-body { min-width: 0; }
+
+/* Promises */
+.promises { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 40px; }
+@media (max-width: 640px) { .promises { grid-template-columns: minmax(0, 1fr); } }
+.promise h3 { font-size: var(--step-1); font-weight: 800; }
+.promise p { margin-top: 8px; color: var(--muted); max-width: 52ch; }
+.promise .tag { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mark); display: block; margin-bottom: 8px; }
+
+/* SEO report card */
+.report { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+@media (max-width: 760px) { .report { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; min-width: 0; }
+.scoreline { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.score { font-family: var(--font-display); font-weight: 800; font-size: 3.4rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.grade { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; color: var(--ok); }
+.scoreline small { color: var(--muted); font-size: var(--step--1); }
+.meter { margin-top: 14px; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 76%; background: var(--ok); border-radius: 99px; }
+.checks { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 4px; font-size: 0.93rem; }
+.checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; }
+.checks li::before { content: "✓"; color: var(--ok); font-weight: 700; }
+.checks li.x::before { content: "✗"; color: var(--mark); }
+.checks span:last-child { color: var(--muted); font-family: var(--font-mono); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+.fixes { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.fixes li { border-left: 3px solid var(--mark); padding: 2px 0 2px 12px; }
+.card h3 { font-size: var(--step-1); font-weight: 800; }
+.card .sub { margin-top: 6px; color: var(--muted); font-size: var(--step--1); }
+
+/* Tools table */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.95rem; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.74rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: color-mix(in srgb, var(--paper) 60%, var(--panel)); }
+tbody tr:last-child td { border-bottom: 0; }
+td.tool { font-family: var(--font-mono); font-size: 0.86rem; font-weight: 600; white-space: nowrap; }
+tr.absent td { background: var(--mark-soft); }
+tr.absent td.tool { color: var(--mark); text-decoration: line-through; }
+.note { margin-top: 14px; color: var(--muted); font-size: var(--step--1); max-width: 70ch; }
+
+/* Flow */
+.flow { list-style: none; margin: 0; padding: 0; display: grid; counter-reset: step; }
+.flow li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--line); counter-increment: step; }
+.flow li:last-child { border-bottom: 0; }
+.flow li::before { content: counter(step); font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; color: var(--mark); line-height: 1; }
+.flow h3 { font-size: var(--step-1); font-weight: 800; }
+.flow p { margin-top: 6px; color: var(--muted); max-width: 60ch; }
+
+/* Diagrams: inline SVG themed by the page tokens */
+.dg { margin: 0 0 28px; }
+.dg .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 50%, var(--panel)); padding: 12px; }
+.dg svg { display: block; width: 100%; height: auto; min-width: 620px; color: var(--ink); font-family: var(--font-body); font-size: 13px; }
+.dg .b { fill: var(--panel); stroke: var(--line); stroke-width: 1.5; }
+.dg .okb { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 1.5; }
+.dg .bk { fill: var(--mark-soft); stroke: var(--mark); stroke-width: 1.5; }
+.dg .bd { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 6 5; }
+.dg .e { stroke: currentColor; stroke-width: 1.5; fill: none; }
+.dg .x { stroke: var(--mark); stroke-width: 1.5; stroke-dasharray: 5 4; fill: none; }
+.dg .ah { fill: currentColor; }
+.dg .ahx { fill: var(--mark); }
+.dg text { fill: currentColor; }
+.dg .t-b { font-weight: 600; }
+.dg .t-m { fill: var(--muted); font-size: 12px; }
+.dg .t-k { fill: var(--mark); font-size: 12px; font-weight: 600; }
+.dg figcaption { color: var(--muted); font-size: var(--step--1); margin-top: 10px; max-width: 70ch; }
+
+/* Code tabs */
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+.tab { font: 600 0.9rem var(--font-body); background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); padding: 10px 14px; cursor: pointer; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--mark); }
+.code { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 0 0 var(--radius) var(--radius); padding: 20px; overflow-x: auto; font-size: 0.86rem; line-height: 1.6; }
+.code .c { color: var(--code-dim); } .code .k { color: var(--code-key); } .code .s { color: var(--code-str); }
+
+/* FAQ */
+.faq details { border-bottom: 1px solid var(--line); padding-block: 16px; }
+.faq summary { cursor: pointer; font-weight: 800; font-size: var(--step-1); font-family: var(--font-display); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--mark); font-weight: 700; }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { margin-top: 10px; color: var(--muted); max-width: 66ch; }
+
+/* Closing */
+.closing .wrap { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px; }
+.closing h2 { font-size: var(--step-3); font-weight: 800; max-width: 18ch; }
+.closing h2 em { color: var(--mark); }
+.foot { border-top: 1px solid var(--line); padding-block: 28px; color: var(--muted); font-size: var(--step--1); }
+.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+</style>
+
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./"><b>AI<i>/</i>Blog</b><small>for Laravel</small></a>
+    <nav aria-label="Site">
+      <a href="#features">Features</a>
+      <a href="#seo">SEO score</a>
+      <a href="#agents">Agents</a>
+      <a href="#faq">FAQ</a>
+      <a class="keep" href="docs/">Docs</a>
+      <a class="keep" href="https://github.com/byteminus/laravel-ai-blog">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Open-source Laravel blog package</p>
+        <h1>The Laravel blog package that <em>edits with you</em>.</h1>
+        <p class="lede">Laravel AI Blog scores every post for on-page SEO, suggests internal links, drafts with any AI provider and lets Claude, ChatGPT or any MCP agent write to your blog. Every AI change lands as a draft. A person decides what goes live.</p>
+        <div class="install">
+          <div class="cmd"><span id="cmd-text">composer require byteminus/laravel-ai-blog</span><button class="btn" id="copy" type="button">Copy</button></div>
+          <a class="btn" href="docs/getting-started/">Read the docs</a>
+        </div>
+        <p class="facts"><span><b>13</b> on-page SEO checks</span><span><b>8</b> MCP tools</span><span><b>230</b> tests</span><span>Laravel <b>10–13</b> · PHP <b>8.2–8.5</b></span><span><b>MIT</b> licensed</span></p>
+      </div>
+
+      <figure class="session" aria-label="Example: an AI agent writing a post through the MCP server">
+        <header><span>Claude Code · mcp: my-blog</span><span>Example session</span></header>
+        <ol>
+          <li><span class="k">draft-from-keyword</span><span><span class="s">"laravel queues"</span> → post 42, saved as <span class="ok">draft</span></span></li>
+          <li><span class="k">score-post</span><span>67 / 100 <span class="d">· grade C · 4 fixes</span></span></li>
+          <li><span class="k">suggest-links</span><span>3 links, anchor <span class="s">"queue workers"</span></span></li>
+          <li><span class="k">update-post</span><span>meta description, H2, 3 links</span></li>
+          <li><span class="k">score-post</span><span><span class="ok">92 / 100</span> <span class="d">· grade A</span></span></li>
+          <li><span class="k">schedule-post</span><span>Monday 09:00 <span class="d">· the scheduler publishes</span></span></li>
+          <li><span class="no">publish-post</span><span class="no">no such tool</span></li>
+        </ol>
+        <footer>Agents draft, score, link and schedule. There is deliberately no tool that publishes.</footer>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band" id="features">
+    <div class="wrap sec">
+      <header>
+        <h2>A blog that does the editor's checklist</h2>
+        <p>The parts of blogging that get skipped, built into the package.</p>
+      </header>
+      <div class="sec-body promises">
+        <div class="promise"><span class="tag">Headless</span><h3>Keep your own Post model</h3><p>Add the <code>HasBlogSeo</code> trait to the model you already have, or use the bundled one. No admin panel forced on you. Turn on one flag for <code>/blog</code> routes, Blade components and RSS.</p></div>
+        <div class="promise"><span class="tag">SEO score</span><h3>A score with fixes, not just a number</h3><p>Thirteen weighted checks, from title length to the keyword in an H2, each with a plain-English fix. Deterministic, no API key needed.</p></div>
+        <div class="promise"><span class="tag">Internal links</span><h3>Links to your own posts, with anchor text</h3><p>TF-IDF suggestions from your published posts, and stale-post detection for the ones due a refresh.</p></div>
+        <div class="promise"><span class="tag">AI drafting</span><h3>An editor, not a ghostwriter</h3><p>Brief to draft, meta descriptions, rewrites, refresh ideas and translations through the official <code>laravel/ai</code> SDK, with any provider. Unverified claims are marked <code>[verify: …]</code>.</p></div>
+        <div class="promise"><span class="tag">MCP server</span><h3>Agents get tools, not the publish button</h3><p>Claude, ChatGPT and Claude Code connect over <code>laravel/mcp</code>. They can draft, score, link and schedule. Publishing stays with people and the scheduler.</p></div>
+        <div class="promise"><span class="tag">Safe research</span><h3>Fetches the web without opening your network</h3><p><code>SafeFetcher</code> blocks private addresses, pins DNS, obeys <code>robots.txt</code> and caps size and time. For your own write actions there is a command bus with idempotency keys and an audit trail.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="seo">
+    <div class="wrap sec">
+      <header>
+        <h2>Know what to fix before you publish</h2>
+        <p>Every post gets a 0–100 score from the same checks an SEO editor runs by hand.</p>
+      </header>
+      <div class="sec-body report">
+        <div class="card" aria-label="Example SEO report for a post targeting laravel queues">
+          <div class="scoreline"><span class="score">76</span><span class="grade">B</span><small>target keyword: “laravel queues”</small></div>
+          <div class="meter" role="img" aria-label="Score 76 out of 100"><i></i></div>
+          <ul class="checks">
+            <li><span>Title length</span><span>10</span></li>
+            <li class="x"><span>Meta description length</span><span>10</span></li>
+            <li><span>Content length</span><span>10</span></li>
+            <li><span>Uses H2 subheadings</span><span>8</span></li>
+            <li><span>Images have alt text</span><span>6</span></li>
+            <li class="x"><span>Links to other content</span><span>8</span></li>
+            <li><span>Readability</span><span>6</span></li>
+            <li><span>Target keyword</span><span>4</span></li>
+            <li><span>Keyword in title</span><span>10</span></li>
+            <li><span>Keyword in meta description</span><span>6</span></li>
+            <li><span>Keyword in URL slug</span><span>6</span></li>
+            <li><span>Keyword in first 100 words</span><span>8</span></li>
+            <li class="x"><span>Keyword in an H2</span><span>6</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Fixes, in plain English</h3>
+          <p class="sub">From <code>$post-&gt;seoReport()-&gt;fixes()</code></p>
+          <ul class="fixes">
+            <li>Adjust the meta description to 120–160 characters (currently 94).</li>
+            <li>Add at least two links — internal links to related posts count most.</li>
+            <li>Add "laravel queues" to at least one H2.</li>
+          </ul>
+          <p class="sub" style="margin-top:18px">Run <code>php artisan ai-blog:audit</code> to score every post at once, or add <code>--fix</code> to let the AI fill missing SEO fields first.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="agents">
+    <div class="wrap sec">
+      <header>
+        <h2>Let AI agents write to your blog</h2>
+        <p>A built-in MCP server. Connect Claude Code with one command; Claude.ai and ChatGPT through OAuth.</p>
+      </header>
+      <div class="sec-body">
+        <figure class="dg">
+          <div class="scroll">
+            <svg viewBox="0 0 760 250" role="img" aria-label="Agents can create, edit, score, link and schedule drafts. Only a person or the scheduler can publish.">
+              <defs>
+                <marker id="lp-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker>
+              </defs>
+              <rect class="b" x="40" y="16" width="300" height="48" rx="8"/>
+              <text x="190" y="45" text-anchor="middle" class="t-b">AI agent · MCP tools</text>
+              <rect class="b" x="420" y="16" width="300" height="48" rx="8"/>
+              <text x="570" y="45" text-anchor="middle" class="t-b">You · your app or Artisan</text>
+
+              <rect class="b" x="40" y="168" width="180" height="48" rx="8"/>
+              <text x="130" y="197" text-anchor="middle" class="t-b">Draft</text>
+              <rect class="b" x="290" y="168" width="180" height="48" rx="8"/>
+              <text x="380" y="197" text-anchor="middle" class="t-b">Scheduled</text>
+              <rect class="okb" x="540" y="168" width="180" height="48" rx="8"/>
+              <text x="630" y="197" text-anchor="middle" class="t-b">Published</text>
+
+              <line class="e" x1="110" y1="64" x2="110" y2="164" marker-end="url(#lp-a)"/>
+              <text x="120" y="108" class="t-m">drafts, edits,</text>
+              <text x="120" y="124" class="t-m">scores, links</text>
+              <line class="e" x1="280" y1="64" x2="358" y2="164" marker-end="url(#lp-a)"/>
+              <text x="328" y="100" class="t-m">schedule-post</text>
+
+              <line class="x" x1="340" y1="40" x2="446" y2="100"/>
+              <path d="M440 94l14 14M454 94l-14 14" stroke="var(--mark)" stroke-width="2.5" stroke-linecap="round"/>
+              <text x="466" y="112" class="t-k">no publish tool</text>
+
+              <line class="e" x1="630" y1="64" x2="630" y2="164" marker-end="url(#lp-a)"/>
+              <text x="640" y="120" class="t-m">publish()</text>
+
+              <line class="e" x1="220" y1="192" x2="286" y2="192" marker-end="url(#lp-a)"/>
+              <line class="e" x1="470" y1="192" x2="536" y2="192" marker-end="url(#lp-a)"/>
+              <text x="255" y="238" text-anchor="middle" class="t-m">schedule</text>
+              <text x="505" y="238" text-anchor="middle" class="t-m">scheduler, on time</text>
+            </svg>
+          </div>
+          <figcaption>Agents work on drafts and can schedule them. Only a person, or the scheduler at the time someone set, moves a post to published.</figcaption>
+        </figure>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th scope="col">MCP tool</th><th scope="col">What the agent can do</th></tr></thead>
+            <tbody>
+              <tr><td class="tool">list-posts</td><td>List recent posts with status and SEO score, filtered by status or text</td></tr>
+              <tr><td class="tool">get-post</td><td>Read one post in full, as Markdown</td></tr>
+              <tr><td class="tool">create-draft</td><td>Create a post as a draft and get its score and fixes back</td></tr>
+              <tr><td class="tool">update-post</td><td>Change only the fields it passes. It cannot change the status</td></tr>
+              <tr><td class="tool">draft-from-keyword</td><td>Research a keyword into a brief, write the draft and save it</td></tr>
+              <tr><td class="tool">score-post</td><td>Score on-page SEO from 0 to 100 and list the fixes</td></tr>
+              <tr><td class="tool">suggest-links</td><td>Suggest internal links to related posts, with anchor text</td></tr>
+              <tr><td class="tool">schedule-post</td><td>Schedule a future publish time for the scheduler</td></tr>
+              <tr class="absent"><td class="tool">publish-post</td><td>Deliberately missing. Agents can't publish</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">The MCP endpoint sits behind the middleware you choose, such as <code>auth:sanctum</code>. Add <code>can:manageAiBlog</code> to let in only the accounts you trust: a scheduled post is published by the scheduler without another check.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap sec">
+      <header>
+        <h2>From keyword to published post</h2>
+        <p>The same path whether a person, a queued job or an agent starts it.</p>
+      </header>
+      <ol class="sec-body flow">
+        <li><div><h3>Brief</h3><p>A keyword becomes a brief: search intent, an outline, questions to answer and related terms.</p></div></li>
+        <li><div><h3>Draft</h3><p>The AI writes the draft from the brief and saves it with status draft. It records how much of the post the AI wrote.</p></div></li>
+        <li><div><h3>Score and fix</h3><p>The SEO report lists what is missing. <code>enrichSeo()</code> can fill in a missing keyword and meta description.</p></div></li>
+        <li><div><h3>Link</h3><p>Internal link suggestions point the new post at your related published posts, with anchor text that fits the sentence.</p></div></li>
+        <li><div><h3>Schedule and publish</h3><p>A person publishes, or schedules the post and <code>ai-blog:publish-scheduled</code> publishes it on time. Pages ship with canonical URLs, Open Graph tags and <code>BlogPosting</code> JSON-LD.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" id="code">
+    <div class="wrap sec">
+      <header>
+        <h2>The code</h2>
+        <p>Install, publish the migrations, and use it from anywhere in your app.</p>
+      </header>
+      <div class="sec-body">
+        <div class="tabs" role="tablist" aria-label="Code examples">
+          <button class="tab" type="button" role="tab" id="tab-score" aria-controls="panel-score" aria-selected="true">Score a post</button>
+          <button class="tab" type="button" role="tab" id="tab-ai" aria-controls="panel-ai" aria-selected="false">Draft with AI</button>
+          <button class="tab" type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="false">Keep your model</button>
+          <button class="tab" type="button" role="tab" id="tab-mcp" aria-controls="panel-mcp" aria-selected="false">Connect an agent</button>
+        </div>
+<pre class="code" role="tabpanel" id="panel-score" aria-labelledby="tab-score"><code><span class="c">// Deterministic, no API key needed.</span>
+$report = $post-&gt;<span class="k">seoReport</span>();
+$report-&gt;score;    <span class="c">// 76</span>
+$report-&gt;<span class="k">grade</span>();  <span class="c">// "B"</span>
+$report-&gt;<span class="k">fixes</span>();  <span class="c">// ["Add at least two links — ...", ...]</span>
+
+<span class="c">// Internal links from your own published posts.</span>
+$post-&gt;<span class="k">suggestedLinks</span>(); <span class="c">// [['post' =&gt; Post, 'anchor' =&gt; 'queue workers', ...]]</span></code></pre>
+<pre class="code" role="tabpanel" id="panel-ai" aria-labelledby="tab-ai" hidden><code><span class="k">use</span> ByteMinus\AiBlog\Facades\AiBlog;
+
+<span class="c">// Keyword → brief → full draft. Saved as a DRAFT for a person to review.</span>
+$draft = AiBlog::<span class="k">draftFromKeyword</span>(<span class="s">'laravel queues'</span>);
+
+<span class="c">// Fill in a missing keyword and meta description.</span>
+AiBlog::<span class="k">enrichSeo</span>($post);
+
+<span class="c">// Publishing is always explicit.</span>
+$post-&gt;<span class="k">schedule</span>(now()-&gt;<span class="k">addDays</span>(<span class="s">2</span>));</code></pre>
+<pre class="code" role="tabpanel" id="panel-model" aria-labelledby="tab-model" hidden><code><span class="k">use</span> ByteMinus\AiBlog\Concerns\HasBlogSeo;
+
+<span class="k">class</span> Post <span class="k">extends</span> Model
+{
+    <span class="k">use</span> HasBlogSeo;
+
+    <span class="c">// Override only what differs from the defaults.</span>
+    <span class="k">public function</span> getBodyField(): string { <span class="k">return</span> <span class="s">'content'</span>; }
+}
+
+<span class="c">// config/ai-blog.php</span>
+<span class="s">'models'</span> =&gt; [<span class="s">'post'</span> =&gt; App\Models\Post::<span class="k">class</span>],</code></pre>
+<pre class="code" role="tabpanel" id="panel-mcp" aria-labelledby="tab-mcp" hidden><code><span class="c">// config/ai-blog.php</span>
+<span class="s">'mcp'</span> =&gt; [
+    <span class="s">'enabled'</span> =&gt; <span class="k">true</span>,
+    <span class="s">'path'</span> =&gt; <span class="s">'/mcp/ai-blog'</span>,
+    <span class="s">'middleware'</span> =&gt; [<span class="s">'auth:sanctum'</span>],
+],
+
+<span class="c"># Then, in your terminal:</span>
+claude mcp add --transport http my-blog https://example.com/mcp/ai-blog \
+  --header <span class="s">"Authorization: Bearer &lt;token&gt;"</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="faq">
+    <div class="wrap sec">
+      <header>
+        <h2>Questions developers ask</h2>
+      </header>
+      <div class="sec-body faq">
+        <details open><summary>What is Laravel AI Blog?</summary><p>Laravel AI Blog is a free, open-source blog package for Laravel. It adds posts, categories and tags, an on-page SEO score with fixes, internal link suggestions, AI drafting through laravel/ai and an MCP server so AI agents can write drafts. Install it with composer require byteminus/laravel-ai-blog.</p></details>
+        <details><summary>Which Laravel and PHP versions does it support?</summary><p>Laravel 10, 11, 12 and 13 on PHP 8.2 to 8.5. Both the newest and the oldest allowed dependencies are tested on every push.</p></details>
+        <details><summary>Does it work without an AI provider?</summary><p>Yes. SEO scoring, link suggestions, structured data, the RSS feed and the blog routes need no API key. The AI features are optional and use laravel/ai when you install it, with any provider it supports.</p></details>
+        <details><summary>Will the AI publish posts by itself?</summary><p>No. Everything the AI or an agent writes is saved as a draft, and the MCP server has no publish tool. A post goes live when a person publishes it, or when the scheduler reaches a time set with schedule() or the schedule-post tool.</p></details>
+        <details><summary>Can I keep my existing Post model?</summary><p>Yes. Add the HasBlogSeo trait to your model, override any field names that differ, and point ai-blog.models.post at it in the config.</p></details>
+        <details><summary>How do I connect Claude or ChatGPT to my Laravel blog?</summary><p>Enable the MCP server in config/ai-blog.php and protect it with middleware. Claude Code connects with claude mcp add and a bearer token. Claude.ai and ChatGPT custom connectors use laravel/mcp's OAuth support with Passport.</p></details>
+        <details><summary>Does it add SEO tags to the blog pages?</summary><p>Yes, when you enable the routes. Post pages get a canonical URL, Open Graph and Twitter cards, publish and modified times, an RSS link and BlogPosting JSON-LD, plus FAQPage JSON-LD when the post has question headings. Index, category and tag pages get descriptions, canonical URLs and prev and next links.</p></details>
+        <details><summary>Is it free?</summary><p>Yes. Laravel AI Blog is MIT licensed, with no paid tier, no Nova or Filament license and no SaaS account.</p></details>
+        <p class="note"><a href="docs/faq/">Read the full FAQ</a>: installation, every SEO check, AI drafting, the MCP tools, routes, safe fetching, testing and troubleshooting.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band closing">
+    <div class="wrap">
+      <h2>Write faster. <em>Publish on purpose.</em></h2>
+      <div class="install"><div class="cmd"><span>composer require byteminus/laravel-ai-blog</span></div></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Laravel AI Blog · SEO blog package for Laravel · MIT license</span>
+    <span><a href="docs/">Docs</a> · <a href="https://packagist.org/packages/byteminus/laravel-ai-blog">Packagist</a> · For AI assistants: <a href="llms.txt">llms.txt</a> · <a href="llms-full.txt">full docs</a> · By <a href="https://github.com/byteminus">ByteMinus</a></span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const copy = document.getElementById('copy');
+  const text = document.getElementById('cmd-text');
+  copy?.addEventListener('click', () => {
+    const done = () => { copy.textContent = 'Copied'; setTimeout(() => { copy.textContent = 'Copy'; }, 1600); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(text); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copy.textContent = 'Selected'; };
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text.textContent).then(done, select); else select();
+  });
+
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach((tab) => tab.addEventListener('click', () => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }));
+})();
+</script>

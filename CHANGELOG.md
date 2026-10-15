@@ -3,6 +3,9 @@
 ## Unreleased
 
 - Breaking: the package moved to the byteminus organisation. Install `byteminus/laravel-ai-blog` instead of `hawkforge/laravel-ai-blog`, and change `use AiBlog\...` to `use ByteMinus\AiBlog\...` in your code. Published config files need the same change.
+- Fix: the AI features now work with laravel/ai 1.x. The assistant looked for a `Laravel\Ai\Facades\Ai` class that laravel/ai does not have, so every AI call failed with "need the laravel/ai SDK" even when it was installed. It now sends each request through `Laravel\Ai\AnonymousAgent`.
+- Docs: the migrations publish tag is `ai-blog-migrations` (the README said `laravel-ai-blog-migrations`, which publishes nothing), and MCP tool names are written the way clients see them, in kebab-case (`list-posts`, `schedule-post`).
+- Website with docs, a 107-question FAQ, diagrams and an AI-readable layer (`llms.txt`, Markdown copies of every page): https://byteminus.github.io/laravel-ai-blog/
 
 ## 0.1.1 - 2026-10-14
 
